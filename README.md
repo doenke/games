@@ -14,6 +14,11 @@ Im Wurzelverzeichnis liegen die Übersicht (`index.html`), die gemeinsame Seite
 „Kontakt & Datenschutz“ (`kontakt.html`, `site.css`) sowie `.htaccess` und
 `robots.txt`, die Suchmaschinen fernhalten.
 
+Die Übersicht ist zugleich ein installierbarer **Launcher** („Spiele“,
+`manifest.webmanifest`, `sw.js`, `icons/`): Unter Android bietet ein langer
+Druck aufs Icon Schnellstarts in jedes Spiel. Die Spiele bleiben eigenständige
+Apps mit eigenem Service Worker und lassen sich auch einzeln installieren.
+
 ## Lokal ausprobieren
 
 ```bash

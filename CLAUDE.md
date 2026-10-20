@@ -13,7 +13,13 @@ hat dort ein eigenes `README.md` und ggf. `CLAUDE.md` mit seinen Regeln.
 
 ## Aufbau
 
-- `index.html` – Übersicht aller Spiele; neues Spiel dort eintragen.
+- `index.html` – Übersicht aller Spiele; neues Spiel dort als Karte eintragen.
+- Launcher: Die Übersicht ist selbst eine installierbare PWA
+  (`manifest.webmanifest`, `sw.js`, `icons/`). Jedes neue Spiel zusätzlich als
+  Eintrag unter `shortcuts` im Manifest anlegen. Der Service Worker der
+  Übersicht ist für `/` registriert, bedient aber nur die eigenen Dateien
+  (`SHELL_FILES`, `icons/`) – neue Dateien der Übersicht dort eintragen,
+  Spiele-Dateien nie.
 - `kontakt.html` – Kontakt & Datenschutz für alle Spiele; jedes Spiel verlinkt
   dezent auf `../kontakt.html`. Speichert ein neues Spiel etwas Neues oder
   bindet es etwas Externes ein, den Datenschutztext anpassen.

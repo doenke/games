@@ -115,6 +115,22 @@ a { color: var(--muted); }
 .share-msg { margin: 10px 0 0; text-align: center; font-size: .85rem; color: var(--muted); word-break: break-all; }
 .share-msg[hidden] { display: none; }
 
+.install {
+  appearance: none;
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  min-height: 46px;
+  border-radius: 999px;
+  border: 2px solid rgb(255 255 255 / .55);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.install[hidden] { display: none; }
+
 footer { margin-top: 36px; text-align: center; font-size: .8rem; }
 
 /* ------------------------------------------------ Kontaktseite */
