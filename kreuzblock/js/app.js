@@ -107,7 +107,7 @@
     const row = game.rows[r];
     const name = ROWS[r].name;
     if (row.locked === 'me') {
-      toast(`${name} hast du selbst abgeschlossen – zum Öffnen dein letztes Kreuz antippen.`);
+      toast(`${name} hast du selbst abgeschlossen – zum Öffnen das letzte Kreuz antippen.`);
       return;
     }
     snapshot();
@@ -162,16 +162,6 @@
       return row;
     }));
 
-    $('lockChips').replaceChildren(...ROWS.map((def, r) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = `lock-chip chip-${def.id}`;
-      b.dataset.r = r;
-      b.textContent = def.name;
-      b.setAttribute('aria-label', `${def.name} von Mitspieler gesperrt`);
-      return b;
-    }));
-
     $('penalties').replaceChildren(...Array.from({ length: MAX_PENALTIES }, (_, i) => {
       const b = document.createElement('button');
       b.type = 'button';
@@ -203,12 +193,6 @@
       });
     });
     [...$('penalties').children].forEach((b, i) => b.classList.toggle('crossed', i < game.penalties));
-    [...$('lockChips').children].forEach((b, r) => {
-      const st = game.rows[r].locked;
-      b.classList.toggle('on', st === 'other');
-      b.classList.toggle('mine', st === 'me');
-      b.setAttribute('aria-pressed', String(st === 'other'));
-    });
 
     const notice = $('notice');
     if (gameOver()) {
@@ -322,10 +306,6 @@
     const r = Number(c.dataset.r);
     if (c.dataset.lock) { toggleOtherLock(r); return; }
     cross(r, Number(c.dataset.i));
-  });
-  $('lockChips').addEventListener('click', (e) => {
-    const b = e.target.closest('.lock-chip');
-    if (b) toggleOtherLock(Number(b.dataset.r));
   });
 
   $('penalties').addEventListener('click', (e) => {
