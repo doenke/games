@@ -1,4 +1,4 @@
-/* Kreuzblock – Ersatz-Wertungsblock und Würfel für Qwixx. */
+/* Kreuzblock – Ersatz-Wertungsblock für Qwixx. */
 (function () {
   'use strict';
 
@@ -31,7 +31,6 @@
   const fresh = () => ({
     rows: ROWS.map(() => ({ crossed: [], locked: null })), // locked: null | 'me' | 'other'
     penalties: 0,
-    dice: null,
     undo: []
   });
 
@@ -204,7 +203,6 @@
       notice.hidden = true;
     }
     $('btnUndo').disabled = !game.undo.length;
-    renderDice();
   }
 
   function renderScore() {
@@ -217,65 +215,6 @@
     $('scoreTable').innerHTML = rowsHtml +
       `<tr class="sc-pen"><th>Fehlwürfe</th><td>${game.penalties} ✕</td><td>${pen ? '−' + pen : 0}</td></tr>` +
       `<tr class="sc-total"><th>Gesamt</th><td></td><td>${total}</td></tr>`;
-  }
-
-  // ---------------------------------------------------------------- Würfel
-
-  const DICE = [
-    { id: 'white', name: 'Weiß' }, { id: 'white', name: 'Weiß' },
-    { id: 'red', name: 'Rot', row: 0 }, { id: 'yellow', name: 'Gelb', row: 1 },
-    { id: 'green', name: 'Grün', row: 2 }, { id: 'blue', name: 'Blau', row: 3 }
-  ];
-
-  const roll1 = () => {
-    const a = new Uint32Array(1);
-    crypto.getRandomValues(a);
-    return (a[0] % 6) + 1;
-  };
-
-  function buildDice() {
-    $('dice').replaceChildren(...DICE.map((d) => {
-      const el = document.createElement('div');
-      el.className = `die die-${d.id}`;
-      el.setAttribute('role', 'img');
-      for (let k = 0; k < 9; k++) el.append(document.createElement('i'));
-      return el;
-    }));
-  }
-
-  // Augen als 3×3-Raster: welche der neun Positionen leuchten.
-  const PIPS = { 1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] };
-
-  function showDie(el, d, value) {
-    const out = d.row !== undefined && game.rows[d.row].locked;
-    el.classList.toggle('out', !!out);
-    [...el.children].forEach((p, k) => p.classList.toggle('on', !!value && PIPS[value].includes(k)));
-    el.setAttribute('aria-label', out ? `${d.name}: aus dem Spiel` : `${d.name}: ${value || '–'}`);
-  }
-
-  function renderDice() {
-    const els = $('dice').children;
-    DICE.forEach((d, k) => showDie(els[k], d, game.dice ? game.dice[k] : 0));
-    $('whiteSum').textContent = game.dice ? `Weiß zusammen: ${game.dice[0] + game.dice[1]}` : 'Weiß zusammen: –';
-  }
-
-  let rolling = false;
-  function roll() {
-    if (rolling) return;
-    rolling = true;
-    const els = $('dice').children;
-    let steps = 0;
-    buzz(40);
-    const timer = setInterval(() => {
-      DICE.forEach((d, k) => showDie(els[k], d, roll1()));
-      if (++steps >= 8) {
-        clearInterval(timer);
-        game.dice = DICE.map(() => roll1());
-        save();
-        renderDice();
-        rolling = false;
-      }
-    }, 55);
   }
 
   // ---------------------------------------------------------------- Kleinkram
@@ -291,12 +230,6 @@
     toastTimer = setTimeout(() => { $('toast').hidden = true; }, 2600);
   }
 
-  function showView(name) {
-    $('viewBlock').hidden = name !== 'Block';
-    $('viewDice').hidden = name !== 'Dice';
-    for (const t of document.querySelectorAll('.tab')) t.classList.toggle('active', t.dataset.view === name);
-    try { localStorage.setItem('kreuzblock:view', name); } catch { /* egal */ }
-  }
 
   // ---------------------------------------------------------------- Ereignisse
 
@@ -317,10 +250,8 @@
   $('btnUndo').addEventListener('click', undo);
   $('btnNew').addEventListener('click', () => $('dlgNew').showModal());
   $('btnNewConfirm').addEventListener('click', () => {
-    game = fresh(); save(); render(); $('dlgNew').close(); showView('Block');
+    game = fresh(); save(); render(); $('dlgNew').close();
   });
-  $('btnRoll').addEventListener('click', roll);
-  for (const t of document.querySelectorAll('.tab')) t.addEventListener('click', () => showView(t.dataset.view));
   for (const dlg of document.querySelectorAll('dialog')) {
     dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
   }
@@ -397,11 +328,8 @@
   // ---------------------------------------------------------------- Start
 
   buildRows();
-  buildDice();
   render();
+  try { localStorage.removeItem('kreuzblock:view'); } catch { /* egal */ }
   applyWake();
-  let view = 'Block';
-  try { view = localStorage.getItem('kreuzblock:view') || 'Block'; } catch { /* egal */ }
-  showView(view === 'Dice' ? 'Dice' : 'Block');
   document.documentElement.dataset.build = BUILD;
 })();

@@ -1,7 +1,7 @@
 # Kreuzblock
 
-Ersatz-Wertungsblock und Würfel für **Qwixx** auf dem Handy – für den Fall, dass
-der Block leer ist oder die Würfel zu Hause liegen. Inoffizielles Fan-Tool,
+Ersatz-Wertungsblock für **Qwixx** auf dem Handy – für den Fall, dass der Block
+leer ist. Inoffizielles Fan-Tool,
 nicht mit dem Verlag verbunden.
 
 Online: <https://games.kanonenwiese.de/kreuzblock/>
@@ -27,11 +27,6 @@ Online: <https://games.kanonenwiese.de/kreuzblock/>
 
 - ☀ oben hält den Bildschirm an, solange die App offen ist (Screen Wake
   Lock; die Einstellung wird gemerkt).
-
-## Würfel
-
-Zwei weiße und je ein roter, gelber, grüner und blauer Würfel. Würfel von
-geschlossenen Reihen werden ausgeblendet; die Summe der weißen steht darunter.
 
 ## Technik
 

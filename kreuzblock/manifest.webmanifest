@@ -1,7 +1,7 @@
 {
   "name": "Kreuzblock – Ersatzblock für Qwixx",
   "short_name": "Kreuzblock",
-  "description": "Wertungsblock und Würfel für Qwixx auf dem Handy.",
+  "description": "Wertungsblock für Qwixx auf dem Handy.",
   "lang": "de",
   "start_url": "./",
   "scope": "./",
