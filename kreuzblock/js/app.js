@@ -102,9 +102,23 @@
     save(); render();
   }
 
-  function lockByOther(r) {
+  /** Reihe als „von Mitspieler gesperrt“ markieren oder wieder öffnen. */
+  function toggleOtherLock(r) {
+    const row = game.rows[r];
+    const name = ROWS[r].name;
+    if (row.locked === 'me') {
+      toast(`${name} hast du selbst abgeschlossen – zum Öffnen dein letztes Kreuz antippen.`);
+      return;
+    }
     snapshot();
-    game.rows[r].locked = 'other';
+    if (row.locked === 'other') {
+      row.locked = null;
+      toast(`${name} ist wieder offen.`);
+    } else {
+      row.locked = 'other';
+      toast(`${name} gesperrt – ↶ oder erneut tippen macht es rückgängig.`);
+    }
+    buzz(20);
     save(); render();
   }
 
@@ -148,6 +162,16 @@
       return row;
     }));
 
+    $('lockChips').replaceChildren(...ROWS.map((def, r) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = `lock-chip chip-${def.id}`;
+      b.dataset.r = r;
+      b.textContent = def.name;
+      b.setAttribute('aria-label', `${def.name} von Mitspieler gesperrt`);
+      return b;
+    }));
+
     $('penalties').replaceChildren(...Array.from({ length: MAX_PENALTIES }, (_, i) => {
       const b = document.createElement('button');
       b.type = 'button';
@@ -162,6 +186,7 @@
     game.rows.forEach((row, r) => {
       const el = $('rows').children[r];
       el.classList.toggle('locked', !!row.locked);
+      el.classList.toggle('locked-other', row.locked === 'other');
       const last = lastCrossed(row);
       [...el.querySelectorAll('.cell')].forEach((c) => {
         if (c.dataset.lock) {
@@ -178,6 +203,12 @@
       });
     });
     [...$('penalties').children].forEach((b, i) => b.classList.toggle('crossed', i < game.penalties));
+    [...$('lockChips').children].forEach((b, r) => {
+      const st = game.rows[r].locked;
+      b.classList.toggle('on', st === 'other');
+      b.classList.toggle('mine', st === 'me');
+      b.setAttribute('aria-pressed', String(st === 'other'));
+    });
 
     const notice = $('notice');
     if (gameOver()) {
@@ -285,21 +316,17 @@
 
   // ---------------------------------------------------------------- Ereignisse
 
-  let lockRow = 0;
   $('rows').addEventListener('click', (e) => {
     const c = e.target.closest('.cell');
     if (!c) return;
     const r = Number(c.dataset.r);
-    if (c.dataset.lock) {
-      if (game.rows[r].locked || gameOver()) return;
-      lockRow = r;
-      $('dlgLockTitle').textContent = `${ROWS[r].name} schließen?`;
-      $('dlgLock').showModal();
-      return;
-    }
+    if (c.dataset.lock) { toggleOtherLock(r); return; }
     cross(r, Number(c.dataset.i));
   });
-  $('btnLockConfirm').addEventListener('click', () => { lockByOther(lockRow); $('dlgLock').close(); });
+  $('lockChips').addEventListener('click', (e) => {
+    const b = e.target.closest('.lock-chip');
+    if (b) toggleOtherLock(Number(b.dataset.r));
+  });
 
   $('penalties').addEventListener('click', (e) => {
     const b = e.target.closest('.penalty');
@@ -317,6 +344,55 @@
   for (const dlg of document.querySelectorAll('dialog')) {
     dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
   }
+
+  // ---------------------------------------------------------------- Bildschirm anlassen
+
+  // Wunsch wird gespeichert; die Sperre selbst gibt der Browser beim Wechsel in den
+  // Hintergrund frei, deshalb beim Zurückkommen neu anfordern.
+  let wakeWanted = false;
+  let wakeLock = null;
+  try { wakeWanted = localStorage.getItem('kreuzblock:wake') === '1'; } catch { /* egal */ }
+
+  async function applyWake() {
+    const btn = $('btnWake');
+    if (!('wakeLock' in navigator)) {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-pressed', 'false');
+      return;
+    }
+    try {
+      if (wakeWanted && !wakeLock && document.visibilityState === 'visible') {
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener('release', () => { wakeLock = null; renderWake(); });
+      } else if (!wakeWanted && wakeLock) {
+        await wakeLock.release();
+        wakeLock = null;
+      }
+    } catch { wakeLock = null; }
+    renderWake();
+  }
+
+  function renderWake() {
+    const on = wakeWanted && !!wakeLock;
+    $('btnWake').classList.toggle('active', on);
+    $('btnWake').setAttribute('aria-pressed', String(on));
+  }
+
+  $('btnWake').addEventListener('click', async () => {
+    if (!('wakeLock' in navigator)) {
+      toast('Dieser Browser kann den Bildschirm nicht wachhalten.');
+      return;
+    }
+    wakeWanted = !wakeWanted;
+    try { localStorage.setItem('kreuzblock:wake', wakeWanted ? '1' : '0'); } catch { /* egal */ }
+    await applyWake();
+    if (wakeWanted && !wakeLock) toast('Bildschirm-Sperre ließ sich nicht verhindern.');
+    else toast(wakeWanted ? 'Bildschirm bleibt an.' : 'Bildschirm darf wieder ausgehen.');
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') applyWake();
+  });
 
   // ---------------------------------------------------------------- Service Worker
 
@@ -343,6 +419,7 @@
   buildRows();
   buildDice();
   render();
+  applyWake();
   let view = 'Block';
   try { view = localStorage.getItem('kreuzblock:view') || 'Block'; } catch { /* egal */ }
   showView(view === 'Dice' ? 'Dice' : 'Block');

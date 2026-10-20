@@ -14,8 +14,10 @@ Online: <https://games.kanonenwiese.de/kreuzblock/>
   lassen sich nicht mehr ankreuzen.
 - Das letzte Feld (gestrichelt) geht erst ab 5 Kreuzen in der Reihe. Wer es
   ankreuzt, schließt die Reihe ab; das Schloss zählt als zusätzliches Kreuz.
-- Hat ein Mitspieler eine Reihe abgeschlossen: auf das Schloss tippen und
-  bestätigen. Die Reihe ist dann gesperrt, das Schloss zählt nicht für dich.
+- Hat ein Mitspieler eine Reihe abgeschlossen: unter dem Block bei „Von
+  Mitspieler gesperrt“ die Farbe antippen (oder das Schloss am Reihenende).
+  Die Reihe wird gestreift als „gesperrt“ markiert, das Schloss zählt nicht
+  für dich. Erneutes Tippen öffnet sie wieder.
 - Vier Fehlwurf-Kästchen zu je −5 Punkten.
 - Das zuletzt gesetzte Kreuz einer Reihe lässt sich durch erneutes Antippen
   entfernen; ↶ nimmt jede Aktion zurück.
@@ -23,6 +25,9 @@ Online: <https://games.kanonenwiese.de/kreuzblock/>
   Spielende an.
 - „Punkte ausrechnen“ zeigt je Reihe Kreuze und Punkte
   (1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78), die Fehlwürfe und die Summe.
+
+- ☀ oben hält den Bildschirm an, solange die App offen ist (Screen Wake
+  Lock; die Einstellung wird gemerkt).
 
 ## Würfel
 

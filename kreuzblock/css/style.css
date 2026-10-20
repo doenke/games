@@ -179,9 +179,67 @@ body {
 
 .cell.dead { opacity: .35; }
 .cell.blocked .num { opacity: .5; }
-.cell.closed { opacity: .45; }
+.cell.closed { opacity: 1; box-shadow: inset 0 0 0 3px var(--cross); }
+.row { position: relative; }
 .row.locked { filter: saturate(.55); }
 .row.locked .cell.crossed { filter: none; }
+/* Von Mitspieler gesperrt: gestreift und beschriftet */
+.row.locked-other::after {
+  content: "🔒 gesperrt";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: clamp(.9rem, 4vw, 1.3rem);
+  letter-spacing: .04em;
+  color: #fff;
+  text-shadow: 0 1px 3px rgb(0 0 0 / .6);
+  background: repeating-linear-gradient(135deg, rgb(0 0 0 / .32) 0 10px, rgb(0 0 0 / .12) 10px 20px);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------ Sperren durch Mitspieler */
+
+.lockbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+.lock-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.lock-chip {
+  appearance: none;
+  min-height: 36px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 2px solid var(--c);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.chip-red { --c: var(--red); }
+.chip-yellow { --c: var(--yellow); }
+.chip-green { --c: var(--green); }
+.chip-blue { --c: var(--blue); }
+.lock-chip.on { background: var(--c); color: #fff; }
+.lock-chip.on::before { content: "🔒 "; }
+.chip-yellow.on { color: #1c1f26; }
+.lock-chip.mine { opacity: .45; }
+.lock-chip.mine::before { content: "✓ "; }
+
+#btnWake { font-size: 1.3rem; padding: 4px 10px; }
+#btnWake.active { color: var(--accent); text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 70%, transparent); }
 
 /* ------------------------------------------------ Fehlwürfe */
 
@@ -322,8 +380,8 @@ body {
 @media (orientation: landscape) and (max-height: 520px) {
   .bar { padding-top: 4px; }
   .rows { gap: 5px; }
-  .cell { height: max(32px, calc((100dvh - 250px) / 4)); }
-  .cell-lock { height: auto; max-height: max(32px, calc((100dvh - 250px) / 4)); }
+  .cell { height: max(32px, calc((100dvh - 290px) / 4)); }
+  .cell-lock { height: auto; max-height: max(32px, calc((100dvh - 290px) / 4)); }
   .bar h1 { font-size: 1.05rem; }
   .view { gap: 8px; padding-top: 4px; }
   #viewBlock:not([hidden]) {
@@ -332,7 +390,9 @@ body {
     align-content: start;
   }
   #viewBlock > .rows, #viewBlock > .notice, #viewBlock > .footer-note { grid-column: 1 / -1; }
-  .penalties { padding: 4px 10px; }
+  .penalties, .lockbar { padding: 4px 10px; }
+  .lockbar { grid-column: 1 / -1; }
+  .lock-chip { min-height: 30px; }
   .penalty { width: 38px; height: 38px; }
   #btnScore { min-height: 0; height: 100%; }
   .footer-note { margin-top: 0; }

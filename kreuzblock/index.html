@@ -21,6 +21,8 @@
 <header class="bar">
   <h1>Kreuzblock</h1>
   <div class="bar-actions">
+    <button type="button" class="btn btn-ghost" id="btnWake" aria-pressed="false"
+      aria-label="Bildschirm anlassen" title="Bildschirm anlassen">☀</button>
     <button type="button" class="btn btn-ghost" id="btnUndo" aria-label="Rückgängig">↶</button>
     <button type="button" class="btn btn-ghost" id="btnNew">Neu</button>
   </div>
@@ -29,6 +31,11 @@
 <!-- Block -->
 <main id="viewBlock" class="view">
   <div class="rows" id="rows"></div>
+
+  <section class="lockbar">
+    <span class="label">Von Mitspieler gesperrt</span>
+    <div class="lock-chips" id="lockChips"></div>
+  </section>
 
   <section class="penalties">
     <span class="label">Fehlwürfe <small>je −5</small></span>
@@ -62,17 +69,6 @@
     <h3>Punkte</h3>
     <table class="score-table" id="scoreTable"></table>
     <button class="btn btn-primary">Fertig</button>
-  </form>
-</dialog>
-
-<!-- Reihe von anderen geschlossen -->
-<dialog id="dlgLock" class="sheet">
-  <form method="dialog">
-    <h3 id="dlgLockTitle">Reihe schließen?</h3>
-    <p>Hat ein Mitspieler diese Reihe abgeschlossen? Dann kannst du dort nichts mehr
-      ankreuzen. Das Schloss zählt für dich nicht als Kreuz.</p>
-    <button type="button" class="btn btn-primary" id="btnLockConfirm">Reihe schließen</button>
-    <button class="btn btn-ghost">Abbrechen</button>
   </form>
 </dialog>
 
