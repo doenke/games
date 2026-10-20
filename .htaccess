@@ -3,3 +3,12 @@
 <IfModule mod_headers.c>
   Header set X-Robots-Tag "noindex, nofollow"
 </IfModule>
+
+# Seiten, Skripte, Styles und Manifeste immer beim Server nachfragen lassen,
+# damit nach einem Deploy kein Browser eine alte Fassung weiter anzeigt.
+# Bilder dürfen normal im Cache bleiben.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|js|css|json|webmanifest)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
