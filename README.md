@@ -3,13 +3,15 @@
 Kleine, handyoptimierte Spiele-Apps als offlinefähige PWAs – statisches
 HTML/CSS/JS ohne Build und Backend. Jedes Spiel liegt in einem eigenen Ordner.
 
+Online: <https://games.kanonenwiese.de/>
+
 | Ordner | Spiel |
 | --- | --- |
 | [`neandertaler/`](neandertaler/) | Zusatzkarten, Timer und Punkte für „Poesie für Neandertaler“ |
 
 Im Wurzelverzeichnis liegen die Übersicht (`index.html`), die gemeinsame Seite
-„Kontakt & Datenschutz“ (`kontakt.html`, `site.css`) und eine `.htaccess`, die
-Suchmaschinen fernhält.
+„Kontakt & Datenschutz“ (`kontakt.html`, `site.css`) sowie `.htaccess` und
+`robots.txt`, die Suchmaschinen fernhalten.
 
 ## Lokal ausprobieren
 

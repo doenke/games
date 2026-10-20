@@ -1,7 +1,7 @@
 # Spiele – Hinweise für Claude
 
 Sammlung kleiner, handyoptimierter Spiele-Apps (PWA, statisches HTML/CSS/JS,
-kein Build, kein Backend). Jedes Spiel liegt in einem eigenen Unterordner und
+kein Build, kein Backend), online unter https://games.kanonenwiese.de/. Jedes Spiel liegt in einem eigenen Unterordner und
 hat dort ein eigenes `README.md` und ggf. `CLAUDE.md` mit seinen Regeln.
 
 ## Arbeitsweise
@@ -18,7 +18,7 @@ hat dort ein eigenes `README.md` und ggf. `CLAUDE.md` mit seinen Regeln.
   dezent auf `../kontakt.html`. Speichert ein neues Spiel etwas Neues oder
   bindet es etwas Externes ein, den Datenschutztext anpassen.
 - `site.css` – Gestaltung von Übersicht und Kontaktseite.
-- `.htaccess` – hält Suchmaschinen von allen Seiten fern.
+- `.htaccess`, `robots.txt` – halten Suchmaschinen von allen Seiten fern.
 
 ## Neues Spiel
 

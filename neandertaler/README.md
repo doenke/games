@@ -4,7 +4,8 @@ Handyoptimierte, offlinefähige PWA für das Spiel **Poesie für Neandertaler**:
 zieht neue Karten, misst die Zeit pro Zug und zählt die Punkte beider Teams.
 
 Alles ist statisches HTML/CSS/JS – kein Build, kein Backend. Die App liegt im
-Repository `games` im Ordner `neandertaler/`; das Deployment beschreibt
+Repository `games` im Ordner `neandertaler/` und ist unter
+<https://games.kanonenwiese.de/neandertaler/> erreichbar; das Deployment beschreibt
 [DEPLOYMENT.md](../DEPLOYMENT.md). Befehle unten gelten aus diesem Ordner.
 
 ## Funktionen
