@@ -40,22 +40,30 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  // Navigationen: Netz zuerst, sonst die gecachte Shell.
-  if (req.mode === 'navigate') {
-    event.respondWith((async () => {
-      try { return await fetch(req); }
-      catch { return (await caches.match(req)) || (await caches.match('index.html')) || Response.error(); }
-    })());
-    return;
-  }
-
-  // Statische Dateien: Cache zuerst, im Hintergrund auffrischen.
+  // Alles Netz zuerst, damit HTML, CSS und JS immer aus demselben Deploy
+  // stammen. Ein Mix aus neuem HTML und altem Skript aus dem Cache hat nach
+  // Updates die Seite zerlegt. Offline oder bei sehr langsamem Netz (4 s)
+  // greift der Cache.
   event.respondWith((async () => {
-    const cached = await caches.match(req);
-    const network = fetch(req).then(async (res) => {
-      if (res && res.ok) (await caches.open(SHELL)).put(req, res.clone());
+    const cache = await caches.open(SHELL);
+    try {
+      // Seitenaufrufe lassen sich nicht mit Optionen neu anfragen; für alle
+      // anderen Dateien den HTTP-Cache des Browsers umgehen (Revalidierung).
+      const net = req.mode === 'navigate' ? fetch(req) : fetch(req, { cache: 'no-cache' });
+      const res = await withTimeout(net, 4000);
+      if (res && res.ok) cache.put(req, res.clone());
       return res;
-    }).catch(() => null);
-    return cached || (await network) || Response.error();
+    } catch {
+      return (await caches.match(req))
+        || (req.mode === 'navigate' ? await caches.match('index.html') : null)
+        || Response.error();
+    }
   })());
 });
+
+function withTimeout(promise, ms) {
+  return new Promise((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error('timeout')), ms);
+    promise.then((v) => { clearTimeout(t); resolve(v); }, (e) => { clearTimeout(t); reject(e); });
+  });
+}

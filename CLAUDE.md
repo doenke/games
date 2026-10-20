@@ -27,6 +27,10 @@ hat dort ein eigenes `README.md` und ggf. `CLAUDE.md` mit seinen Regeln.
 - Service Worker: Cache-Name mit dem Spielnamen als Präfix und dem Platzhalter
   `__BUILD__` als Version (`const VERSION = '__BUILD__'`); der Deploy stempelt
   ihn. Alte Caches nur mit dem eigenen Präfix löschen.
+- Service Worker holt **alles Netz zuerst** (Cache nur offline oder nach 4 s
+  Timeout), wie in `neandertaler/sw.js`. Kein „Cache zuerst“ für JS/CSS: sonst
+  laufen nach einem Deploy neues HTML und altes Skript zusammen und die Seite
+  bricht.
 - `localStorage`-Schlüssel immer mit Präfix `spielname:` – alle Spiele teilen
   sich eine Domain und damit einen Speicher.
 - Dateien, die nicht auf den Webspace gehören (Quellen, Skripte), in `tools/`
