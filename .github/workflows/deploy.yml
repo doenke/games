@@ -71,12 +71,18 @@ jobs:
       - name: Quellstand holen
         uses: actions/checkout@v5
 
-      - name: Cache-Version in Service Worker und App stempeln
+      - name: Cache-Version in alle Spiele stempeln
         run: |
           set -eu
-          sed -i "s/__BUILD__/${GITHUB_SHA:0:12}/" sw.js js/app.js
-          grep -n "const VERSION" sw.js
-          grep -n "const BUILD" js/app.js
+          # Jedes Spiel hat seinen eigenen Service Worker; ein neuer Wert lässt
+          # installierte Apps das Update erkennen.
+          files=$(grep -rl --include='*.js' --exclude-dir=.git --exclude-dir=tools '__BUILD__' . || true)
+          if [ -z "$files" ]; then
+            echo "::warning::Keine Datei mit __BUILD__ gefunden."
+          else
+            printf '%s\n' $files | xargs sed -i "s/__BUILD__/${GITHUB_SHA:0:12}/"
+            grep -rn --include='*.js' --exclude-dir=.git "const VERSION\|const BUILD" .
+          fi
 
       - name: lftp installieren
         run: |
@@ -222,10 +228,11 @@ jobs:
                    --exclude '^\.git/' \
                    --exclude '^\.github/' \
                    --exclude '^\.gitignore$' \
-                   --exclude '^README\.md$' \
                    --exclude '^DEPLOYMENT\.md$' \
-                   --exclude '^CLAUDE\.md$' \
-                   --exclude '^tools/' \
+                   --exclude '(^|/)README\.md$' \
+                   --exclude '(^|/)CLAUDE\.md$' \
+                   --exclude '(^|/)tools/' \
+                   --exclude '(^|/)__pycache__/' \
                    ./ \"$REMOTE_DIR\";
           "
 

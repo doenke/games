@@ -1,43 +1,35 @@
-# Neandertaler – Hinweise für Claude
+# Spiele – Hinweise für Claude
 
-Statische PWA (HTML/CSS/JS, kein Build) mit Karten, Timer und Punktezähler für
-„Poesie für Neandertaler“. Details in `README.md`, Deployment in `DEPLOYMENT.md`.
+Sammlung kleiner, handyoptimierter Spiele-Apps (PWA, statisches HTML/CSS/JS,
+kein Build, kein Backend). Jedes Spiel liegt in einem eigenen Unterordner und
+hat dort ein eigenes `README.md` und ggf. `CLAUDE.md` mit seinen Regeln.
 
 ## Arbeitsweise
 
 - Sprache in Code-Kommentaren, Texten und Commits: Deutsch.
-- Es gibt nur den Branch `main`. Jeder Push auf `main` deployt per SFTP auf den
-  Webspace (`.github/workflows/deploy.yml`). Vor dem Push prüfen, dass alles läuft.
+- Es gibt nur den Branch `main`. Jeder Push auf `main` spiegelt das ganze
+  Repository per SFTP auf den Webspace (`.github/workflows/deploy.yml`,
+  Details in `DEPLOYMENT.md`) – mit Löschen. Vor dem Push prüfen, dass alles läuft.
 
-## Karten erstellen
+## Aufbau
 
-Karten stehen in `tools/cards.txt` (`1-Punkt-Wort | 3-Punkt-Begriff`, Kategorien
-mit `## Name`). `data/cards.de.json` wird daraus erzeugt, nie von Hand bearbeiten.
+- `index.html` – Übersicht aller Spiele; neues Spiel dort eintragen.
+- `kontakt.html` – Kontakt & Datenschutz für alle Spiele; jedes Spiel verlinkt
+  dezent auf `../kontakt.html`. Speichert ein neues Spiel etwas Neues oder
+  bindet es etwas Externes ein, den Datenschutztext anpassen.
+- `site.css` – Gestaltung von Übersicht und Kontaktseite.
+- `.htaccess` – hält Suchmaschinen von allen Seiten fern.
 
-**Keine Doppelungen, weder zum bestehenden Set noch innerhalb neuer Karten.**
-Das gilt für 1-Punkt-Wörter und für 3-Punkt-Begriffe, Groß-/Kleinschreibung egal.
+## Neues Spiel
 
-**Der 3-Punkt-Begriff ist immer ein einzelnes zusammengesetztes Wort, das das
-1-Punkt-Wort als Wortteil enthält** (Gold → Goldschmied, Katze → Katzenklo,
-Huhn → Hühnerstall). Keine Wortgruppen, Redewendungen, Namen oder Titel.
-
-- Vor dem Ausdenken neuer Karten alle vorhandenen 1-Punkt-Wörter und
-  3-Punkt-Begriffe aus `tools/cards.txt` einlesen und dagegen prüfen. Neue
-  Karten erst in eine eigene Datei schreiben und mit
-  `python3 tools/check-new-cards.py datei.txt` prüfen; nur die gültigen Zeilen
-  übernehmen, für die verworfenen neue Wörter ausdenken.
-- Auch keine Beinahe-Doppelungen: kein 3er, der nur ein bestehender 3er mit
-  Zusatz ist („Sandburg“ → „Sandburg bauen“), keine künstlich angehängten
-  Ortsangaben („Spinnennetz im Keller“), keine Singular/Plural-Varianten eines
-  vorhandenen 1-Punkt-Worts.
-- Nach dem Bearbeiten `python3 tools/build-cards.py` ausführen. Es bricht bei
-  doppelten 1-Punkt-Wörtern oder 3-Punkt-Begriffen und bei 3ern ohne das
-  1-Punkt-Wort ab und muss fehlerfrei durchlaufen. Treffer durch neue Wörter
-  in den **neuen** Karten ersetzen.
-- Bestehende Karten nicht umformulieren, außer auf ausdrücklichen Wunsch: die
-  Karten-ID ist ein Hash des Texts, sonst geht der „schon gespielt“-Status
-  verloren.
-- 1-Punkt-Wort: ein einfaches Wort (Substantiv). 3-Punkt-Begriff: echtes,
-  gebräuchliches Kompositum, keine bloße Plural- oder weibliche Form
-  (nicht „Sekretär → Sekretärin“), familientauglich.
-- Anzahl in `README.md` („rund … Kartenpaare in … Kategorien“) mitziehen.
+- Eigener Ordner mit `index.html`, `manifest.webmanifest` (`start_url` und
+  `scope` `./`), eigenem `sw.js` und Icons. Nichts von fremden Servern laden.
+- Service Worker: Cache-Name mit dem Spielnamen als Präfix und dem Platzhalter
+  `__BUILD__` als Version (`const VERSION = '__BUILD__'`); der Deploy stempelt
+  ihn. Alte Caches nur mit dem eigenen Präfix löschen.
+- `localStorage`-Schlüssel immer mit Präfix `spielname:` – alle Spiele teilen
+  sich eine Domain und damit einen Speicher.
+- Dateien, die nicht auf den Webspace gehören (Quellen, Skripte), in `tools/`
+  des Spiels; `README.md`, `CLAUDE.md` und `tools/` werden nicht hochgeladen.
+- Unten auf dem Startbildschirm: Hinweis „inoffizielles Fan-Tool“, falls es
+  ein bestehendes Spiel ergänzt, und der Link „Kontakt & Datenschutz“.

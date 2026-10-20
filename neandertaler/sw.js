@@ -6,7 +6,6 @@ const SHELL   = `neandertaler-shell-${VERSION}`;
 const SHELL_FILES = [
   './',
   'index.html',
-  'kontakt.html',
   'css/style.css',
   'js/deck.js',
   'js/app.js',

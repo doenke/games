@@ -13,7 +13,7 @@ Repository → Settings → Secrets and variables → Actions:
 | --- | --- | --- |
 | `SFTP_HOST` | ja | Hostname des Webspace, z.B. `ssh.example-hoster.de` |
 | `SFTP_USER` | ja | Benutzername |
-| `SFTP_REMOTE_DIR` | ja | Zielverzeichnis, z.B. `/www/neandertaler` |
+| `SFTP_REMOTE_DIR` | ja | Zielverzeichnis, z.B. `/www/games` |
 | `SFTP_KNOWN_HOSTS` | ja | Hostschlüssel des Servers (siehe unten) |
 | `SFTP_KEY` | eins von beiden | privater SSH-Schlüssel, komplett inklusive der `-----BEGIN`-Zeile |
 | `SFTP_PASSWORD` | eins von beiden | SFTP-Passwort, falls der Hoster keine Schlüssel anbietet |
@@ -75,11 +75,14 @@ Branch.
 - Der Workflow spiegelt **mit Löschen**. Zeigt `SFTP_REMOTE_DIR` versehentlich
   auf ein Verzeichnis mit anderen Inhalten, verschwinden diese. Deshalb ein
   eigenes Unterverzeichnis verwenden; das Wurzelverzeichnis lehnt der Workflow ab.
-- `.git`, `.github`, `.gitignore`, `README.md`, `DEPLOYMENT.md`, `CLAUDE.md` und `tools/`
-  werden nicht übertragen.
-- Der Commit-SHA wird vor dem Upload als Cache-Version in `sw.js` und
-  `js/app.js` gestempelt (Platzhalter `__BUILD__`; in den Einstellungen als
-  „Version“ sichtbar). Dadurch erkennen installierte Apps das Update,
+- Das ganze Repository wird gespiegelt: Übersicht und Kontaktseite im
+  Zielverzeichnis, jedes Spiel in seinem Unterordner (`games/neandertaler/` …).
+- Nicht übertragen werden `.git`, `.github`, `.gitignore`, `DEPLOYMENT.md` sowie
+  in jedem Ordner `README.md`, `CLAUDE.md`, `tools/` und `__pycache__/`.
+- Der Commit-SHA wird vor dem Upload in jede `.js`-Datei gestempelt, die den
+  Platzhalter `__BUILD__` enthält – also in den Service Worker jedes Spiels
+  (bei Neandertaler auch in `js/app.js`, in den Einstellungen als „Version“).
+  Dadurch erkennen installierte Apps das Update,
   verwerfen den alten Cache und melden „Neue Version verfügbar".
 - Weil ein frischer Checkout alle Zeitstempel auf „jetzt" setzt, lädt lftp
   jedes Mal alle Dateien neu hoch. Bei rund 300 kB fällt das nicht ins Gewicht.
