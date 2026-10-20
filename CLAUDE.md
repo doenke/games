@@ -17,7 +17,9 @@ hat dort ein eigenes `README.md` und ggf. `CLAUDE.md` mit seinen Regeln.
 - `kontakt.html` – Kontakt & Datenschutz für alle Spiele; jedes Spiel verlinkt
   dezent auf `../kontakt.html`. Speichert ein neues Spiel etwas Neues oder
   bindet es etwas Externes ein, den Datenschutztext anpassen.
-- `site.css` – Gestaltung von Übersicht und Kontaktseite.
+- `site.css`, `favicon.svg` – eigenes Design von Übersicht und Kontaktseite
+  (Spieltisch: grüner Filz, Spiele als weiße Karten, Gold als Akzent),
+  unabhängig vom Look der einzelnen Spiele.
 - `.htaccess`, `robots.txt` – halten Suchmaschinen von allen Seiten fern.
 
 ## Neues Spiel
