@@ -62,4 +62,27 @@ a { color: var(--muted); }
 .games strong { display: block; font-size: 1.1rem; }
 .games span { color: var(--muted); font-size: .9rem; }
 
+.share {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 20px;
+  min-height: 48px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  border: 2px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.share:active { transform: scale(.98); }
+.share-msg { margin: 8px 0 0; text-align: center; font-size: .85rem; color: var(--muted); word-break: break-all; }
+.share-msg[hidden] { display: none; }
+
 footer { margin-top: 32px; text-align: center; font-size: .8rem; }

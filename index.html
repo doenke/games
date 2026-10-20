@@ -27,7 +27,51 @@
       </a>
     </li>
   </ul>
+
+  <button type="button" class="share" id="share">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor"
+      d="M18 16.1c-.8 0-1.4.3-2 .8l-7.1-4.2c.1-.2.1-.5.1-.7s0-.5-.1-.7L16 7.2c.5.5 1.2.8 2 .8 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .2 0 .5.1.7L8 9.8C7.5 9.3 6.8 9 6 9c-1.7 0-3 1.3-3 3s1.3 3 3 3c.8 0 1.5-.3 2-.8l7.1 4.2c-.1.2-.1.4-.1.6 0 1.6 1.3 2.9 2.9 2.9s2.9-1.3 2.9-2.9-1.2-2.9-2.8-2.9z"/></svg>
+    Link teilen
+  </button>
+  <p class="share-msg" id="shareMsg" role="status" hidden></p>
+
   <footer><a href="kontakt.html">Kontakt &amp; Datenschutz</a></footer>
 </main>
+<script>
+  // Teilt die Adresse der Übersicht: auf dem Handy über den Teilen-Dialog,
+  // sonst wird der Link in die Zwischenablage kopiert.
+  (function () {
+    var btn = document.getElementById('share');
+    var msg = document.getElementById('shareMsg');
+    var url = location.origin + location.pathname.replace(/index\.html$/, '');
+    var timer;
+
+    function say(text) {
+      msg.textContent = text;
+      msg.hidden = false;
+      clearTimeout(timer);
+      timer = setTimeout(function () { msg.hidden = true; }, 4000);
+    }
+
+    function copy() {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(url).then(function () {
+          say('Link kopiert: ' + url);
+        }, function () { say(url); });
+      } else {
+        say(url);
+      }
+    }
+
+    btn.addEventListener('click', function () {
+      if (navigator.share) {
+        navigator.share({ title: 'Spiele', text: 'Kleine Spiele-Helfer fürs Handy:', url: url })
+          .catch(function (err) { if (err && err.name !== 'AbortError') copy(); });
+      } else {
+        copy();
+      }
+    });
+  })();
+</script>
 </body>
 </html>
