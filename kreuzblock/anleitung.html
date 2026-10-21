@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Anleitung – Kreuzblock</title>
+<meta name="theme-color" content="#1c1f26">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="bar">
+  <h1>Anleitung</h1>
+  <div class="bar-actions">
+    <a class="btn btn-ghost" href="./">Zum Block</a>
+  </div>
+</header>
+
+<main class="view guide">
+
+  <p class="lead">Ein Spieler ist am Zug und würfelt mit allen sechs Würfeln:
+    zwei weißen und je einem roten, gelben, grünen und blauen. Danach gibt es
+    zwei Aktionen – <strong>immer in dieser Reihenfolge</strong>.</p>
+
+  <ol class="steps">
+    <li class="step">
+      <div class="step-head">
+        <span class="step-no">1</span>
+        <h2>Weiße Summe</h2>
+        <span class="who who-all">alle Spieler</span>
+      </div>
+      <p>Der aktive Spieler sagt die Summe der <strong>beiden weißen Würfel</strong>
+        an. <strong>Jeder</strong> am Tisch – auch der aktive Spieler – darf diese
+        Zahl in <strong>einer beliebigen Reihe</strong> ankreuzen. Niemand muss.</p>
+      <p class="example">Weiß zeigt 4 und 3 → alle dürfen eine 7 ankreuzen, egal in welcher Farbe.</p>
+    </li>
+
+    <li class="step">
+      <div class="step-head">
+        <span class="step-no">2</span>
+        <h2>Weiß + Farbe</h2>
+        <span class="who who-active">nur der aktive Spieler</span>
+      </div>
+      <p>Jetzt darf <strong>nur der aktive Spieler</strong> noch ein Kreuz machen:
+        Er kombiniert <strong>einen weißen</strong> Würfel mit <strong>einem
+        farbigen</strong> und kreuzt die Summe in der Reihe <strong>dieser
+        Farbe</strong> an. Auch das ist freiwillig.</p>
+      <p class="example">Weiß 3 + Rot 5 → 8 in der roten Reihe. Nicht erlaubt: zwei farbige Würfel oder eine Farbe in fremder Reihe.</p>
+    </li>
+
+    <li class="step">
+      <div class="step-head">
+        <span class="step-no">3</span>
+        <h2>Fehlwurf?</h2>
+        <span class="who who-active">nur der aktive Spieler</span>
+      </div>
+      <p>Hat der aktive Spieler in <strong>beiden</strong> Aktionen
+        <strong>nichts</strong> angekreuzt, muss er einen Fehlwurf markieren
+        (−5 Punkte). Mitspieler bekommen nie einen Fehlwurf, auch wenn sie
+        nichts ankreuzen.</p>
+    </li>
+  </ol>
+
+  <p class="note">Der aktive Spieler darf beide Aktionen nutzen, also bis zu
+    zwei Kreuze machen – auch in derselben Reihe, solange das zweite Kreuz
+    rechts vom ersten liegt. Danach ist der Nächste im Uhrzeigersinn dran.</p>
+
+  <h2 class="sec">Ankreuzen</h2>
+  <ul class="rules">
+    <li>Nur <strong>von links nach rechts</strong>. Übersprungene Felder sind
+      verloren und dürfen später nicht mehr angekreuzt werden.</li>
+    <li>Rot und Gelb laufen von 2 bis 12, Grün und Blau von 12 bis 2.</li>
+  </ul>
+
+  <h2 class="sec">Reihe abschließen</h2>
+  <ul class="rules">
+    <li>Das <strong>letzte Feld</strong> einer Reihe (12 bzw. 2) darf nur
+      ankreuzen, wer dort schon <strong>mindestens 5 Kreuze</strong> hat.</li>
+    <li>Wer es ankreuzt, kreuzt auch das <strong>Schloss</strong> an – es zählt
+      als zusätzliches Kreuz – und schließt die Reihe damit <strong>für
+      alle</strong>. Der Würfel dieser Farbe kommt aus dem Spiel.</li>
+    <li>Schaffen das mehrere Spieler bei derselben weißen Summe, schließen sie
+      die Reihe gemeinsam und bekommen alle ihr Schloss.</li>
+  </ul>
+
+  <h2 class="sec">Spielende</h2>
+  <p>Das Spiel endet sofort, wenn ein Spieler seinen
+    <strong>vierten Fehlwurf</strong> markiert oder die <strong>zweite
+    Reihe</strong> abgeschlossen wird.</p>
+
+  <h2 class="sec">Punkte</h2>
+  <p>Jede Reihe zählt nach Anzahl ihrer Kreuze (Schloss mitgezählt), Fehlwürfe
+    kosten je 5 Punkte. Wer die meisten Punkte hat, gewinnt.</p>
+  <table class="points">
+    <tr><th>Kreuze</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+    <tr><th>Punkte</th><td>1</td><td>3</td><td>6</td><td>10</td><td>15</td><td>21</td></tr>
+    <tr><th>Kreuze</th><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+    <tr><th>Punkte</th><td>28</td><td>36</td><td>45</td><td>55</td><td>66</td><td>78</td></tr>
+  </table>
+
+  <h2 class="sec">So bedienst du den Kreuzblock</h2>
+  <ul class="rules">
+    <li><strong>Zahl antippen</strong> setzt ein Kreuz. Der Block lässt nur
+      erlaubte Felder zu und graut übersprungene aus.</li>
+    <li><strong>Letztes Kreuz einer Reihe</strong> erneut antippen nimmt es
+      zurück, <strong>↶</strong> macht jede Aktion rückgängig.</li>
+    <li>Hat ein <strong>Mitspieler</strong> eine Reihe abgeschlossen:
+      <strong>🔒 am Ende der Reihe</strong> antippen. Die Reihe wird gesperrt,
+      das Schloss zählt dann nicht für dich. Nochmal tippen öffnet sie wieder.</li>
+    <li><strong>Fehlwurf</strong>: eines der vier Kästchen antippen.</li>
+    <li><strong>Punkte ausrechnen</strong> zeigt alle Reihen und die Summe.</li>
+    <li><strong>☀</strong> hält den Bildschirm an, <strong>Neu</strong> startet
+      einen leeren Block.</li>
+  </ul>
+
+  <a class="btn btn-primary btn-big" href="./">Zum Block</a>
+
+  <p class="footer-note">Kurzfassung der Regeln, keine offizielle Anleitung.
+    Inoffizieller Ersatzblock, nicht mit dem Verlag von „Qwixx“ verbunden.
+    · <a href="../kontakt.html">Kontakt &amp; Datenschutz</a></p>
+</main>
+
+</body>
+</html>

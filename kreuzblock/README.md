@@ -28,6 +28,13 @@ Online: <https://games.kanonenwiese.de/kreuzblock/>
 - ☀ oben hält den Bildschirm an, solange die App offen ist (Screen Wake
   Lock; die Einstellung wird gemerkt).
 
+## Anleitung
+
+`anleitung.html` (über **?** im Kopf): Ablauf eines Zugs in der richtigen
+Reihenfolge – erst die weiße Summe für alle, dann Weiß + Farbe nur für den
+aktiven Spieler, Fehlwurf nur für ihn –, dazu Ankreuzen, Abschließen,
+Spielende, Punktetabelle und die Bedienung des Blocks.
+
 ## Technik
 
 Statisches HTML/CSS/JS, offlinefähig per Service Worker, installierbar.

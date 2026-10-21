@@ -6,6 +6,7 @@ const SHELL   = `kreuzblock-shell-${VERSION}`;
 const SHELL_FILES = [
   './',
   'index.html',
+  'anleitung.html',
   'css/style.css',
   'js/app.js',
   'manifest.webmanifest',

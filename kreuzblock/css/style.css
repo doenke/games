@@ -31,7 +31,8 @@
 }
 
 * { box-sizing: border-box; }
-html, body { height: 100%; overflow-x: hidden; }
+/* clip statt hidden: verhindert Querscrollen, ohne body zum Scroll-Container zu machen */
+html, body { overflow-x: clip; }
 
 body {
   margin: 0;
@@ -231,6 +232,58 @@ body {
 .footer-note { margin: auto 0 0; text-align: center; color: var(--muted); font-size: .72rem; }
 .footer-note a { color: var(--muted); }
 
+/* ------------------------------------------------ Anleitung */
+
+a.btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+#btnHelp { font-size: 1.15rem; font-weight: 800; padding: 4px 12px; }
+
+.guide { gap: 10px; line-height: 1.5; padding-bottom: calc(24px + var(--safe-b)); }
+.guide .lead { margin: 4px 0 2px; font-size: 1.05rem; }
+.guide p { margin: 0; }
+.guide .sec { font-size: 1.1rem; margin: 18px 0 2px; color: var(--accent); }
+
+.steps { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; }
+.step {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--step, var(--line));
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: grid;
+  gap: 6px;
+}
+.step:nth-child(1) { --step: #f7f7f2; }
+.step:nth-child(2) { --step: var(--red); }
+.step:nth-child(3) { --step: var(--muted); }
+.step-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.step-head h2 { margin: 0; font-size: 1.1rem; flex: 1; min-width: 8em; }
+.step-no {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-weight: 800;
+  background: var(--accent);
+  color: #1c1f26;
+  flex: none;
+}
+.who { font-size: .78rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.who-all { background: color-mix(in srgb, var(--green) 30%, var(--panel)); color: var(--text); }
+.who-active { background: color-mix(in srgb, var(--red) 32%, var(--panel)); color: var(--text); }
+.example {
+  font-size: .9rem;
+  color: var(--muted);
+  border-top: 1px dashed var(--line);
+  padding-top: 6px;
+}
+.note { font-size: .95rem; color: var(--muted); }
+
+.rules { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+
+.points { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; margin-top: 6px; }
+.points th, .points td { border: 1px solid var(--line); padding: 6px 4px; text-align: center; }
+.points th { text-align: left; font-weight: 600; color: var(--muted); width: 5.5em; }
+.points tr:nth-child(even) td { font-weight: 800; }
+
 /* ------------------------------------------------ Dialoge */
 
 .sheet {
@@ -282,6 +335,17 @@ body {
 }
 .toast[hidden] { display: none; }
 .toast .btn { color: var(--accent); min-height: 36px; padding: 4px 8px; }
+
+/* Schmale Handys: Kopf und Fehlwürfe zusammenrücken */
+@media (max-width: 380px) {
+  .bar { padding-left: 8px; padding-right: 6px; }
+  .bar h1 { font-size: 1.05rem; }
+  .bar-actions { gap: 0; }
+  .bar-actions .btn { padding-left: 8px; padding-right: 8px; min-width: 0; }
+  .penalties { padding: 8px 10px; gap: 8px; }
+  .penalty-boxes { gap: 6px; }
+  .penalty { width: 38px; height: 38px; }
+}
 
 /* Querformat: Block nutzt die volle Breite */
 @media (orientation: landscape) and (max-height: 520px) {
