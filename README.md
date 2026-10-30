@@ -32,3 +32,14 @@ und `http://localhost:8000/` öffnen.
 
 Jeder Push auf `main` spiegelt das Repository per SFTP auf den Webspace, siehe
 [DEPLOYMENT.md](DEPLOYMENT.md).
+
+## Warteliste
+
+Spiele, die noch gebaut werden sollen – nur mit den vorhandenen Würfeln
+(2 weiß, je 1 rot, gelb, grün, blau):
+
+- **Knister** – Ersatzblock (5×5-Raster, Würfelsummen ankreuzen); braucht nur
+  die 2 weißen Würfel.
+- **Ganz schön clever** – Ersatzblock; das Original hat 6 Würfel (weiß, gelb,
+  blau, grün, orange, lila), Orange und Lila müssen über eine Zuordnung
+  ersetzt werden.
