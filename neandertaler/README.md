@@ -84,6 +84,6 @@ auch ohne HTTPS; auf dem Webspace braucht die Installation als App HTTPS.
 | `js/app.js` | Spielablauf, Wertung, Timer, Einstellungen |
 | `js/deck.js` | Kartenstapel: laden, mischen, ziehen, gespielte Karten merken |
 | `data/cards.de.json` | Kartenliste (erzeugt) |
-| `sw.js` | Service Worker, offline-Cache |
-| `manifest.webmanifest`, `icons/` | Installation als App |
+| `sw.js` | Abschalt-Stub für früher installierte Einzel-App; offline läuft alles über `/sw.js` |
+| `icons/` | Icon für Übersicht und Schnellstart (installiert wird die ganze Seite) |
 | `tools/` | Kartenquelle und Build-Skript (wird nicht hochgeladen) |

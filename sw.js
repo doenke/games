@@ -1,42 +1,28 @@
-/* Service Worker der Übersicht (Launcher).
-   Er ist für "/" registriert und würde damit auch Seiten der Spiele erreichen.
-   Deshalb bedient er ausschließlich die eigenen Dateien der Übersicht; alles in
-   den Spiele-Ordnern geht unberührt ans Netz bzw. an den Service Worker des
-   jeweiligen Spiels. */
+/* Service Worker für alle Spiele – eine einzige App für die ganze Seite.
+   Er ist für "/" registriert, lädt beim Installieren alle Dateien aller Spiele
+   vor (offline spielbar) und holt sonst alles Netz zuerst. Updates laufen
+   still: Ein neuer Deploy ersetzt den Cache, ohne Meldung. */
 // __BUILD__ wird beim Deploy durch den Commit-SHA ersetzt (.github/workflows/deploy.yml).
 const VERSION = '__BUILD__';
-const SHELL   = `uebersicht-shell-${VERSION}`;
+const CACHE   = `spiele-${VERSION}`;
 
-const SHELL_FILES = [
-  './',
-  'index.html',
-  'kontakt.html',
-  'site.css',
-  'favicon.svg',
-  'manifest.webmanifest',
-  'icons/icon-192.png',
-  'icons/icon-512.png',
-  'icons/icon-maskable-512.png',
-  'icons/apple-touch-icon.png'
-];
-
-// Pfade relativ zum Scope, die dieser Service Worker bedienen darf.
-const OWN = new Set(SHELL_FILES.map((f) => new URL(f, self.registration.scope).pathname));
-const isOwn = (url) => OWN.has(url.pathname) || url.pathname.startsWith(new URL('icons/', self.registration.scope).pathname);
+// Der Deploy ersetzt die Liste durch alle hochgeladenen Dateien. Lokal (ohne
+// Deploy) bleibt diese kleine Liste, der Rest landet beim ersten Aufruf im Cache.
+const FILES = /*__FILES__*/['./', 'index.html', 'kontakt.html', 'site.css', 'favicon.svg', 'manifest.webmanifest'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
-    const cache = await caches.open(SHELL);
-    await Promise.all(SHELL_FILES.map((f) => cache.add(new Request(f, { cache: 'reload' })).catch(() => {})));
+    const cache = await caches.open(CACHE);
+    await Promise.all(FILES.map((f) => cache.add(new Request(f, { cache: 'reload' })).catch(() => {})));
     await self.skipWaiting();
   })());
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
+    // Alles andere weg – auch die Caches der früheren Einzel-Apps je Spiel.
     const keys = await caches.keys();
-    await Promise.all(keys.filter((k) => k.startsWith('uebersicht-shell-') && k !== SHELL)
-                          .map((k) => caches.delete(k)));
+    await Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)));
     await self.clients.claim();
   })());
 });
@@ -45,18 +31,23 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
-  if (url.origin !== self.location.origin || !isOwn(url)) return; // Spiele nicht anfassen
+  if (url.origin !== self.location.origin) return;
 
-  // Netz zuerst (gleiche Regel wie bei den Spielen), offline aus dem Cache.
+  // Alles Netz zuerst, damit HTML, CSS und JS immer aus demselben Deploy
+  // stammen. Offline oder bei sehr langsamem Netz (4 s) greift der Cache.
   event.respondWith((async () => {
-    const cache = await caches.open(SHELL);
+    const cache = await caches.open(CACHE);
     try {
+      // Seitenaufrufe lassen sich nicht mit Optionen neu anfragen; für alle
+      // anderen Dateien den HTTP-Cache des Browsers umgehen (Revalidierung).
       const net = req.mode === 'navigate' ? fetch(req) : fetch(req, { cache: 'no-cache' });
       const res = await withTimeout(net, 4000);
       if (res && res.ok) cache.put(req, res.clone());
       return res;
     } catch {
-      return (await caches.match(req)) || Response.error();
+      return (await cache.match(req, { ignoreSearch: true }))
+        || (req.mode === 'navigate' ? await cache.match(new URL('index.html', url).href) : null)
+        || Response.error();
     }
   })());
 });

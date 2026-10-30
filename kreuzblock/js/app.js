@@ -352,21 +352,11 @@
 
   // ---------------------------------------------------------------- Service Worker
 
+  // Ein Service Worker für alle Spiele (/sw.js). Er hält sie offline bereit
+  // und aktualisiert still – keine Meldung bei neuen Versionen.
   if ('serviceWorker' in navigator) {
-    const hadController = !!navigator.serviceWorker.controller;
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').then((reg) => {
-        document.addEventListener('visibilitychange', () => {
-          if (document.visibilityState === 'visible') reg.update().catch(() => {});
-        });
-      }).catch(() => {});
-    });
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (!hadController) return;
-      $('toastText').textContent = 'Neue Version verfügbar.';
-      const a = $('toastAction');
-      a.hidden = false; a.textContent = 'Neu laden'; a.onclick = () => location.reload();
-      $('toast').hidden = false;
+      navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(() => {});
     });
   }
 

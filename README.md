@@ -18,10 +18,12 @@ Im Wurzelverzeichnis liegen die Übersicht (`index.html`), die gemeinsame Seite
 „Kontakt & Datenschutz“ (`kontakt.html`, `site.css`) sowie `.htaccess` und
 `robots.txt`, die Suchmaschinen fernhalten.
 
-Die Übersicht ist zugleich ein installierbarer **Launcher** („Spiele“,
-`manifest.webmanifest`, `sw.js`, `icons/`): Unter Android bietet ein langer
-Druck aufs Icon Schnellstarts in jedes Spiel. Die Spiele bleiben eigenständige
-Apps mit eigenem Service Worker und lassen sich auch einzeln installieren.
+Alles zusammen ist **eine installierbare App** („Spiele“,
+`manifest.webmanifest`, `sw.js`, `icons/`): ein Icon auf dem Handy, von dort in
+jedes Spiel; unter Android bietet ein langer Druck aufs Icon Schnellstarts.
+Ein gemeinsamer Service Worker lädt beim Installieren alle Spiele vor (offline
+spielbar) und aktualisiert still, ohne Meldung. Die `sw.js` in den
+Spiele-Ordnern räumen nur früher installierte Einzel-Apps ab.
 
 ## Lokal ausprobieren
 

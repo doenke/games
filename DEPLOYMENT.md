@@ -80,10 +80,13 @@ Branch.
 - Nicht übertragen werden `.git`, `.github`, `.gitignore`, `DEPLOYMENT.md` sowie
   in jedem Ordner `README.md`, `CLAUDE.md`, `tools/` und `__pycache__/`.
 - Der Commit-SHA wird vor dem Upload in jede `.js`-Datei gestempelt, die den
-  Platzhalter `__BUILD__` enthält – also in den Service Worker jedes Spiels
-  (bei Neandertaler auch in `js/app.js`, in den Einstellungen als „Version“).
-  Dadurch erkennen installierte Apps das Update,
-  verwerfen den alten Cache und melden „Neue Version verfügbar".
+  Platzhalter `__BUILD__` enthält – vor allem in den gemeinsamen Service Worker
+  `sw.js` (bei Neandertaler auch in `js/app.js`, in den Einstellungen als
+  „Version“). Dadurch erkennt die installierte App das Update und ersetzt den
+  Cache still, ohne Meldung.
+- Außerdem schreibt der Workflow die Liste aller hochgeladenen Dateien in
+  `sw.js` (Platzhalter `/*__FILES__*/`), damit alle Spiele offline vorgeladen
+  werden.
 - Weil ein frischer Checkout alle Zeitstempel auf „jetzt" setzt, lädt lftp
   jedes Mal alle Dateien neu hoch. Bei rund 300 kB fällt das nicht ins Gewicht.
 - Zwei Deploys gleichzeitig verhindert die `concurrency`-Gruppe.

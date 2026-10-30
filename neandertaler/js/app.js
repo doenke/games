@@ -571,21 +571,11 @@
 
   // ---------------------------------------------------------------- Service Worker
 
+  // Ein Service Worker für alle Spiele (/sw.js). Er hält sie offline bereit
+  // und aktualisiert still – keine Meldung bei neuen Versionen.
   if ('serviceWorker' in navigator) {
-    const hadController = !!navigator.serviceWorker.controller;
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').then((reg) => {
-        // Eine installierte App bleibt oft tagelang im Hintergrund offen.
-        // Beim Zurückholen deshalb selbst nach einem neuen Deploy fragen.
-        document.addEventListener('visibilitychange', () => {
-          if (document.visibilityState === 'visible') reg.update().catch(() => {});
-        });
-      }).catch(() => {});
-    });
-    // Nach einem Deploy übernimmt der neue Service Worker sofort; nur dann,
-    // wenn vorher schon einer aktiv war, ist das ein echtes Update.
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (hadController) toast('Neue Version verfügbar.', 'Neu laden', () => location.reload());
+      navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(() => {});
     });
   }
 

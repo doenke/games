@@ -23,12 +23,18 @@ hat dort ein eigenes `README.md` und ggf. `CLAUDE.md` mit seinen Regeln.
   Ziel: In den Urlaub sollen möglichst nur Würfel mit. Würfel in den
   Originalfarben des Spiels verwenden – lieber mehr Würfel einpacken als
   Farben umdeuten (Wunsch des Nutzers).
-- Launcher: Die Übersicht ist selbst eine installierbare PWA
-  (`manifest.webmanifest`, `sw.js`, `icons/`). Jedes neue Spiel zusätzlich als
-  Eintrag unter `shortcuts` im Manifest anlegen. Der Service Worker der
-  Übersicht ist für `/` registriert, bedient aber nur die eigenen Dateien
-  (`SHELL_FILES`, `icons/`) – neue Dateien der Übersicht dort eintragen,
-  Spiele-Dateien nie.
+- **Eine PWA für alles** (Wunsch des Nutzers: keine Einzel-Apps, keine
+  Update-Meldungen). `manifest.webmanifest` und `sw.js` liegen nur im
+  Wurzelverzeichnis; Spiele verlinken `../manifest.webmanifest` und
+  registrieren `../sw.js` mit `scope: '../'`. Jedes Spiel zusätzlich als
+  Eintrag unter `shortcuts` im Manifest anlegen.
+- `sw.js`: Cache `spiele-<Version>`, Version `__BUILD__` stempelt der Deploy,
+  die Vorlade-Liste `/*__FILES__*/` füllt der Deploy mit allen hochgeladenen
+  Dateien. Neue Dateien also nirgends von Hand eintragen. Updates laufen still –
+  keine „Neue Version“-Meldung einbauen.
+- `<spiel>/sw.js` sind Abschalt-Stubs für früher installierte Einzel-Apps
+  (räumen auf und melden sich ab). Nicht registrieren, nicht löschen; neue
+  Spiele bekommen keinen.
 - `kontakt.html` – Kontakt & Datenschutz für alle Spiele; jedes Spiel verlinkt
   dezent auf `../kontakt.html`. Speichert ein neues Spiel etwas Neues oder
   bindet es etwas Externes ein, den Datenschutztext anpassen.
@@ -39,15 +45,13 @@ hat dort ein eigenes `README.md` und ggf. `CLAUDE.md` mit seinen Regeln.
 
 ## Neues Spiel
 
-- Eigener Ordner mit `index.html`, `manifest.webmanifest` (`start_url` und
-  `scope` `./`), eigenem `sw.js` und Icons. Nichts von fremden Servern laden.
-- Service Worker: Cache-Name mit dem Spielnamen als Präfix und dem Platzhalter
-  `__BUILD__` als Version (`const VERSION = '__BUILD__'`); der Deploy stempelt
-  ihn. Alte Caches nur mit dem eigenen Präfix löschen.
-- Service Worker holt **alles Netz zuerst** (Cache nur offline oder nach 4 s
-  Timeout), wie in `neandertaler/sw.js`. Kein „Cache zuerst“ für JS/CSS: sonst
-  laufen nach einem Deploy neues HTML und altes Skript zusammen und die Seite
-  bricht.
+- Eigener Ordner mit `index.html` und Icons (`icons/icon-192.png` für Übersicht
+  und Shortcut), Manifest-Link `../manifest.webmanifest`, Service Worker per
+  `navigator.serviceWorker.register('../sw.js', { scope: '../' })`. Kein eigenes
+  Manifest, kein eigener Service Worker. Nichts von fremden Servern laden.
+- Der gemeinsame Service Worker holt **alles Netz zuerst** (Cache nur offline
+  oder nach 4 s Timeout). Kein „Cache zuerst“ für JS/CSS: sonst laufen nach
+  einem Deploy neues HTML und altes Skript zusammen und die Seite bricht.
 - `localStorage`-Schlüssel immer mit Präfix `spielname:` – alle Spiele teilen
   sich eine Domain und damit einen Speicher.
 - Dateien, die nicht auf den Webspace gehören (Quellen, Skripte), in `tools/`
