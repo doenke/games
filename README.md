@@ -12,6 +12,7 @@ Online: <https://games.kanonenwiese.de/>
 | [`farbkreuz/`](farbkreuz/) | Ersatzblock mit eigenem Spielfeld für „Noch mal!“ (Originalwürfel) |
 | [`summenraster/`](summenraster/) | Ersatzblock für „Knister“, mit den 2 weißen Würfeln |
 | [`schlaufuchs/`](schlaufuchs/) | Eigenes Wertungsblatt nach „Ganz schön clever“ (Würfel in Originalfarben) |
+| [`ohne-x/`](ohne-x/) | Erklären ohne verbotenen Buchstaben – Karten, Timer und Punkte für „Nix da!“ |
 
 Im Wurzelverzeichnis liegen die Übersicht (`index.html`), die gemeinsame Seite
 „Kontakt & Datenschutz“ (`kontakt.html`, `site.css`) sowie `.htaccess` und

@@ -93,6 +93,19 @@
           "type": "image/png"
         }
       ]
+    },
+    {
+      "name": "Ohne X",
+      "short_name": "Ohne X",
+      "description": "Erklären ohne verbotenen Buchstaben („Nix da!“)",
+      "url": "ohne-x/",
+      "icons": [
+        {
+          "src": "ohne-x/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

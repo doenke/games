@@ -65,6 +65,13 @@
           <span>Eigenes Wertungsblatt nach „Ganz schön clever“ – Boni und Füchse automatisch</span></div>
       </a>
     </li>
+    <li>
+      <a href="ohne-x/">
+        <img src="ohne-x/icons/icon-192.png" alt="" width="56" height="56">
+        <div><strong>Ohne X</strong>
+          <span>Erklären ohne verbotenen Buchstaben – Karten, Timer und Punkte für „Nix da!“</span></div>
+      </a>
+    </li>
   </ul>
 
   <section class="material" aria-labelledby="matTitle">
@@ -92,7 +99,7 @@
   // braucht die Packliste von jedem Teil nur die größte Anzahl eines Spiels.
   (function () {
     var ITEMS = {
-      'wuerfel-weiss': { name: 'weiße Würfel', die: 'white' },
+      'wuerfel-weiss': { name: 'weißer Würfel', plural: 'weiße Würfel', die: 'white' },
       'wuerfel-rot':   { name: 'roter Würfel', plural: 'rote Würfel', die: 'red' },
       'wuerfel-gelb':  { name: 'gelber Würfel', plural: 'gelbe Würfel', die: 'yellow' },
       'wuerfel-gruen': { name: 'grüner Würfel', plural: 'grüne Würfel', die: 'green' },
@@ -140,6 +147,13 @@
         optional: [],
         app: 'den Spielblock',
         phones: 'ein Handy pro Spieler'
+      },
+      {
+        name: 'Ohne X',
+        need: [],
+        optional: [],
+        app: 'Karten und Timer',
+        phones: 'ein Handy für alle'
       }
     ];
 

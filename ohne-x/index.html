@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Ohne X</title>
+<meta name="description" content="Begriffe erklären ohne einen verbotenen Buchstaben – Karten, Timer und Punkte für „Nix da!“.">
+<meta name="theme-color" content="#1e1b33">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ohne X">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="bar">
+  <h1>Ohne X</h1>
+  <div class="bar-actions">
+    <button type="button" class="btn btn-ghost" id="btnWake" aria-pressed="false"
+      aria-label="Bildschirm anlassen" title="Bildschirm anlassen">☀</button>
+    <a class="btn btn-ghost" id="btnHelp" href="anleitung.html" aria-label="Anleitung" title="Anleitung">?</a>
+    <button type="button" class="btn btn-ghost" id="btnNew">Neu</button>
+  </div>
+</header>
+
+<!-- Start -->
+<main class="view" id="viewSetup" hidden>
+  <p class="intro">Erklärt Begriffe – aber <strong>ein Buchstabe ist verboten</strong>.
+    Kein Wort mit diesem Buchstaben, nicht der Begriff selbst und keine Teile davon.</p>
+
+  <section class="box">
+    <label class="field">Team, das beginnt <small>(jüngster Spieler)</small>
+      <input id="name0" maxlength="20" autocomplete="off"></label>
+    <label class="field">Zweites Team
+      <input id="name1" maxlength="20" autocomplete="off"></label>
+  </section>
+
+  <section class="box">
+    <div class="field">Zeit pro Runde
+      <div class="seg" id="segTimer">
+        <button type="button" data-v="45">45 s</button><button type="button" data-v="60">60 s</button>
+        <button type="button" data-v="90">90 s</button>
+      </div>
+    </div>
+    <div class="field">Runden pro Team
+      <div class="seg" id="segRounds">
+        <button type="button" data-v="3">3</button><button type="button" data-v="5">5</button>
+        <button type="button" data-v="7">7</button>
+      </div>
+    </div>
+    <label class="check"><input type="checkbox" id="optSound" checked> Ton und Vibration</label>
+  </section>
+
+  <button type="button" class="btn btn-primary btn-big" id="btnStart">Spiel starten</button>
+
+  <p class="footer-note">Inoffizielles Fan-Tool mit eigenen Begriffen, nicht mit dem
+    Verlag von „Nix da!“ verbunden. · <a href="../kontakt.html">Kontakt &amp; Datenschutz</a></p>
+</main>
+
+<!-- Vor der Runde -->
+<main class="view center" id="viewReady" hidden>
+  <div class="scoreline" id="scoreReady"></div>
+  <p class="round-no" id="roundReady"></p>
+  <h2 class="team-up" id="teamReady"></h2>
+  <p class="hint">Der Erklärer nimmt das Handy. Das andere Team schaut mit und passt
+    auf, dass kein verbotenes Wort fällt.</p>
+  <button type="button" class="btn btn-primary btn-huge" id="btnGo">3, 2, 1 – Los!</button>
+  <p class="count" id="countdown" hidden></p>
+</main>
+
+<!-- Laufende Runde -->
+<main class="view play" id="viewPlay" hidden>
+  <div class="play-top">
+    <span class="play-team" id="playTeam"></span>
+    <span class="timer" id="timer">60</span>
+    <span class="play-pts" id="playPts"></span>
+  </div>
+  <div class="timebar"><span id="timebar"></span></div>
+
+  <div class="card" id="card">
+    <span class="card-label">Erkläre</span>
+    <strong class="term" id="term"></strong>
+    <span class="card-label">ohne den Buchstaben</span>
+    <span class="letter" id="letter"></span>
+  </div>
+
+  <div class="actions">
+    <button type="button" class="btn btn-ok" id="btnOk">✓ Erraten</button>
+    <button type="button" class="btn btn-bad" id="btnBad">✕ Verboten!</button>
+    <button type="button" class="btn btn-skip" id="btnSkip">Überspringen</button>
+    <button type="button" class="btn btn-ghost" id="btnUndo">↶ Zurück</button>
+  </div>
+  <p class="rule-hint"><strong>Verboten!</strong> und <strong>Überspringen</strong>:
+    die Karte geht ans andere Team, es geht sofort weiter.</p>
+  <button type="button" class="btn btn-ghost btn-stop" id="btnStop">Runde abbrechen</button>
+</main>
+
+<!-- Nach der Runde -->
+<main class="view" id="viewSummary" hidden>
+  <h2 class="title" id="sumTitle"></h2>
+  <div class="scoreline" id="scoreSum"></div>
+  <p class="hint">Falsch gewertet? Einen Begriff antippen, um ihn umzudrehen.</p>
+  <ul class="log" id="log"></ul>
+  <button type="button" class="btn btn-primary btn-big" id="btnNext">Weiter</button>
+</main>
+
+<!-- Ende -->
+<main class="view center" id="viewEnd" hidden>
+  <h2 class="title">Spielende</h2>
+  <div class="scoreline big" id="scoreEnd"></div>
+  <p class="winner" id="winner"></p>
+  <button type="button" class="btn btn-primary btn-big" id="btnTie" hidden>Entscheidungsrunde</button>
+  <button type="button" class="btn btn-big" id="btnAgain">Neues Spiel</button>
+</main>
+
+<!-- Neues Spiel -->
+<dialog id="dlgNew" class="sheet">
+  <form method="dialog">
+    <h3>Neues Spiel?</h3>
+    <p>Der Punktestand wird gelöscht. Gespielte Begriffe kommen erst wieder, wenn
+      alle durch sind.</p>
+    <button type="button" class="btn btn-primary" id="btnNewConfirm">Neues Spiel</button>
+    <button class="btn btn-ghost">Abbrechen</button>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" hidden><span id="toastText"></span><button type="button" id="toastAction" class="btn btn-ghost" hidden></button></div>
+
+<script src="js/words.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
