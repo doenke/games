@@ -170,44 +170,78 @@ body {
 .timebar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
 .timebar span { display: block; height: 100%; background: var(--accent); }
 
-.card {
-  background: var(--panel);
-  border: 2px solid var(--line);
-  border-radius: 22px;
-  padding: 18px 14px 20px;
-  display: grid;
-  justify-items: center;
-  gap: 6px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgb(0 0 0 / .25);
-}
-.card-label { color: var(--muted); font-size: .85rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
-.term { font-size: clamp(1.8rem, 9vw, 2.6rem); line-height: 1.15; overflow-wrap: anywhere; hyphens: auto; margin-bottom: 8px; }
-.term.long { font-size: clamp(1.4rem, 7vw, 2.1rem); }
-.letter {
+/* Karte wie im Original: Schild mit Farbe und Buchstabe, darunter sechs Farbstreifen */
+.c-blue { --c: #1aa5e0; }
+.c-yellow { --c: #f2cd0c; }
+.c-orange { --c: #f28a1c; }
+.c-pink { --c: #e8378e; }
+.c-purple { --c: #7a3fb0; }
+.c-green { --c: #86c23a; }
+
+.cardpair { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto 1fr; gap: 10px 12px; align-items: center; }
+.back {
+  width: 96px; height: 96px;
+  border-radius: 16px;
+  background: var(--c);
   display: grid;
   place-items: center;
-  width: 92px; height: 92px;
-  border-radius: 20px;
-  background: var(--accent);
-  color: #fff;
-  font-size: 3.4rem;
-  font-weight: 900;
   position: relative;
+  box-shadow: inset 0 0 0 3px rgb(255 255 255 / .35), 0 6px 18px rgb(0 0 0 / .25);
 }
-/* durchgestrichener Kreis wie ein Verbotsschild */
-.letter::after {
+/* Verbotsschild */
+.back::before {
   content: "";
   position: absolute;
-  inset: 8px;
-  border: 5px solid rgb(255 255 255 / .55);
+  inset: 9px;
+  border: 6px solid rgb(255 255 255 / .45);
   border-radius: 50%;
-  background: linear-gradient(135deg, transparent 46%, rgb(255 255 255 / .55) 46% 54%, transparent 54%);
+  background: linear-gradient(135deg, transparent 45%, rgb(255 255 255 / .45) 45% 55%, transparent 55%);
 }
-.card.flash-ok { animation: flashOk .4s; }
-.card.flash-bad { animation: flashBad .4s; }
-@keyframes flashOk { 0% { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 30%, var(--panel)); } }
-@keyframes flashBad { 0% { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 30%, var(--panel)); } }
+.letter {
+  position: relative;
+  font-size: 3.4rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 3px 3px 0 #1b1b1b, -1px -1px 0 #1b1b1b, 1px -1px 0 #1b1b1b, -1px 1px 0 #1b1b1b;
+}
+.pair-hint { margin: 0; font-size: .9rem; color: var(--muted); }
+.pair-hint strong { color: var(--text); }
+
+.front {
+  grid-column: 1 / -1;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  background: #fff;
+  border-radius: 16px;
+  display: grid;
+  gap: 4px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / .25);
+}
+.front li {
+  background: var(--c);
+  border-radius: 8px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 4px 8px;
+}
+.front span {
+  color: #fff;
+  font-size: clamp(1.25rem, 6vw, 1.6rem);
+  font-weight: 900;
+  letter-spacing: .01em;
+  text-shadow: 2px 2px 0 #1b1b1b, -1px -1px 0 #1b1b1b, 1px -1px 0 #1b1b1b, -1px 1px 0 #1b1b1b;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+.cardpair.flash-ok .front { animation: flashOk .5s; }
+.cardpair.flash-bad .front { animation: flashBad .5s; }
+@keyframes flashOk { 0% { box-shadow: 0 0 0 6px var(--ok); } }
+@keyframes flashBad { 0% { box-shadow: 0 0 0 6px var(--bad); } }
+
+.dot { display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: var(--c); margin-right: 6px; vertical-align: 0; }
 
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .actions .btn { min-height: 64px; font-size: 1.1rem; }
@@ -308,12 +342,27 @@ body {
 @media (max-width: 380px) {
   .bar { padding-left: 8px; padding-right: 4px; }
   .bar-actions .btn-ghost { padding: 4px 7px; }
-  .letter { width: 76px; height: 76px; font-size: 2.8rem; }
 }
 
-@media (max-height: 640px) {
-  .card { padding: 10px; }
-  .letter { width: 70px; height: 70px; font-size: 2.6rem; }
+@media (max-height: 700px) {
+  .back { width: 74px; height: 74px; }
+  .letter { font-size: 2.6rem; }
+  .front li { min-height: 36px; padding: 2px 8px; }
+  .front span { font-size: 1.15rem; }
   .btn-ok { min-height: 64px !important; }
   .actions .btn { min-height: 52px; }
+}
+
+/* sehr kleine Handys: alles Wichtige ohne Scrollen */
+@media (max-height: 600px) {
+  .play { gap: 6px; }
+  .timer { font-size: 2rem; }
+  .back { width: 60px; height: 60px; }
+  .letter { font-size: 2.1rem; }
+  .pair-hint { font-size: .8rem; }
+  .front li { min-height: 28px; }
+  .front span { font-size: 1rem; }
+  .btn-ok { min-height: 50px !important; font-size: 1.2rem !important; }
+  .actions .btn { min-height: 44px; }
+  .rule-hint { display: none; }
 }

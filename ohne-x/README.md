@@ -10,7 +10,9 @@ Online: <https://games.kanonenwiese.de/ohne-x/>
 
 - Start: Teamnamen (beginnendes Team zuerst), Zeit (45/60/90 s), Runden pro
   Team (3/5/7, Original: 5).
-- Runde: „3, 2, 1 – Los!“, dann Begriff plus verbotener Buchstabe.
+- Runde: „3, 2, 1 – Los!“, dann eine Karte wie im Original: Schild mit Farbe
+  und verbotenem Buchstaben, darunter sechs Begriffe in sechs Farben – den
+  passenden sucht der Erklärer selbst.
   ✓ Erraten = Punkt fürs aktive Team; ✕ Verboten! und Überspringen = Karte an die
   Gegner, es geht weiter. ↶ nimmt den letzten Knopfdruck zurück.
 - Zeit um: angefangene Karte zählt nicht. Auswertung mit allen Begriffen;
@@ -19,8 +21,8 @@ Online: <https://games.kanonenwiese.de/ohne-x/>
 
 ## Begriffe
 
-`js/words.js` wird aus den Neandertaler-Karten erzeugt (beide Spalten, ohne
-Dubletten, rund 3600 Begriffe):
+`js/words.js` wird aus den Neandertaler-Karten erzeugt (1-Punkt-Wörter bis 12,
+3-Punkt-Begriffe bis 10 Zeichen, ohne Dubletten, rund 2400 Begriffe):
 
 ```bash
 python3 tools/build-words.py

@@ -11,6 +11,11 @@
   const WORDS = window.OHNE_X_WORDS || [];
   // Verbotene Buchstaben: häufige, aber kein E – das wäre kaum spielbar.
   const LETTERS = 'AIOUNSTRLHMDGB';
+  // Die sechs Farben der Karten, in der Reihenfolge der Streifen
+  const COLORS = [
+    { id: 'blue', name: 'Blau' }, { id: 'yellow', name: 'Gelb' }, { id: 'orange', name: 'Orange' },
+    { id: 'pink', name: 'Pink' }, { id: 'purple', name: 'Lila' }, { id: 'green', name: 'Grün' }
+  ];
   const RESULT = {
     ok:   { label: 'erraten', mark: '✓' },
     bad:  { label: 'verboten', mark: '✕' },
@@ -25,6 +30,8 @@
 
   const settings = Object.assign({ timer: 60, rounds: 5, sound: true, names: ['Team A', 'Team B'] }, load(KEY_SETTINGS, {}));
   let game = load(KEY_GAME, null);
+  // Spielstände aus der ersten Version (ein Begriff pro Karte) weiterspielen
+  if (game && game.card && !game.card.terms) game.card = null;
   const saveGame = () => store(KEY_GAME, game);
 
   // ---------------------------------------------------------------- Stapel
@@ -41,11 +48,19 @@
     }
     return { order, pos: 0 };
   }
+  /** Eine Karte: sechs Begriffe in sechs Farben, dazu Schild mit Farbe und Buchstabe. */
   function draw() {
-    if (deck.pos >= deck.order.length) deck = shuffled();
-    const term = WORDS[deck.order[deck.pos++]];
+    const terms = [];
+    while (terms.length < COLORS.length) {
+      if (deck.pos >= deck.order.length) deck = shuffled();
+      terms.push(WORDS[deck.order[deck.pos++]]);
+    }
     store(KEY_DECK, deck);
-    return { term, letter: LETTERS[Math.floor(Math.random() * LETTERS.length)] };
+    return {
+      terms,
+      color: Math.floor(Math.random() * COLORS.length),
+      letter: LETTERS[Math.floor(Math.random() * LETTERS.length)]
+    };
   }
 
   // ---------------------------------------------------------------- Spielstand
@@ -120,9 +135,14 @@
   }
 
   function renderCard() {
-    $('term').textContent = game.card.term;
-    $('letter').textContent = game.card.letter;
-    $('term').classList.toggle('long', game.card.term.length > 13);
+    if (!game.card) game.card = draw();
+    const c = game.card;
+    const col = COLORS[c.color];
+    $('back').className = `back c-${col.id}`;
+    $('back').setAttribute('aria-label', `Farbe ${col.name}, verboten: ${c.letter}`);
+    $('letter').textContent = c.letter;
+    $('front').innerHTML = c.terms.map((t, i) =>
+      `<li class="c-${COLORS[i].id}"><span>${esc(t)}</span></li>`).join('');
     const mine = game.log.filter((e) => e.turn === game.turn);
     $('playPts').textContent = `✓ ${mine.filter((e) => e.res === 'ok').length}`;
     $('btnUndo').disabled = !mine.length;
@@ -135,7 +155,7 @@
     $('scoreSum').innerHTML = scoreHtml();
     $('log').innerHTML = mine.length
       ? mine.map((e) => `<li><button type="button" class="res-${e.res}" data-i="${game.log.indexOf(e)}">` +
-        `<span class="mk">${RESULT[e.res].mark}</span><span class="t">${esc(e.term)}</span>` +
+        `<span class="mk">${RESULT[e.res].mark}</span><span class="t">${e.card ? `<i class="dot c-${COLORS[e.card.color].id}"></i>` : ''}${esc(e.term)}</span>` +
         `<small>ohne ${e.letter} · ${RESULT[e.res].label}</small></button></li>`).join('')
       : '<li class="empty">Kein Begriff in dieser Runde.</li>';
     const last = game.turn + 1 >= game.turns;
@@ -177,7 +197,8 @@
 
   function answer(res) {
     if (game.phase !== 'play') return;
-    game.log.push({ turn: game.turn, term: game.card.term, letter: game.card.letter, res });
+    const c = game.card;
+    game.log.push({ turn: game.turn, term: c.terms[c.color], letter: c.letter, res, card: c });
     game.card = draw();
     saveGame();
     buzz(res === 'ok' ? 25 : [40, 40, 40]);
@@ -193,9 +214,9 @@
     const e = game.log[game.log.length - 1];
     if (!e || e.turn !== game.turn) return;
     game.log.pop();
-    deck.pos = Math.max(0, deck.pos - 1);   // aktuelle Karte zurück auf den Stapel
+    deck.pos = Math.max(0, deck.pos - COLORS.length);   // aktuelle Karte zurück auf den Stapel
     store(KEY_DECK, deck);
-    game.card = { term: e.term, letter: e.letter };
+    game.card = e.card;
     saveGame();
     renderCard();
   }

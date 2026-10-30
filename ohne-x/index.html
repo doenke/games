@@ -82,11 +82,13 @@
   </div>
   <div class="timebar"><span id="timebar"></span></div>
 
-  <div class="card" id="card">
-    <span class="card-label">Erkläre</span>
-    <strong class="term" id="term"></strong>
-    <span class="card-label">ohne den Buchstaben</span>
-    <span class="letter" id="letter"></span>
+  <div class="cardpair" id="card">
+    <div class="back" id="back" aria-label="Farbe und verbotener Buchstabe">
+      <span class="letter" id="letter"></span>
+    </div>
+    <p class="pair-hint">Erkläre den Begriff in <strong>dieser Farbe</strong> –
+      ohne Wörter mit <strong>diesem Buchstaben</strong>.</p>
+    <ol class="front" id="front"></ol>
   </div>
 
   <div class="actions">
@@ -96,7 +98,7 @@
     <button type="button" class="btn btn-ghost" id="btnUndo">↶ Zurück</button>
   </div>
   <p class="rule-hint"><strong>Verboten!</strong> und <strong>Überspringen</strong>:
-    die Karte geht ans andere Team, es geht sofort weiter.</p>
+    die Karte geht ans andere Team, es geht mit der nächsten Karte weiter.</p>
   <button type="button" class="btn btn-ghost btn-stop" id="btnStop">Runde abbrechen</button>
 </main>
 

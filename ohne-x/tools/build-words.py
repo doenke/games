@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Baut die Begriffsliste für „Ohne X“ aus den Neandertaler-Karten.
 
-Beide Spalten (1-Punkt-Wort und 3-Punkt-Begriff) werden zu Begriffen,
+Wie auf den Originalkarten sollen es kurze, einfache Begriffe sein: alle
+1-Punkt-Wörter bis 12 Zeichen und die 3-Punkt-Begriffe bis 10 Zeichen.
 Dubletten fliegen raus. Ergebnis: js/words.js
 
 Aufruf aus dem Ordner ohne-x/:  python3 tools/build-words.py
@@ -16,9 +17,10 @@ for line in SRC.read_text(encoding="utf-8").splitlines():
     line = line.strip()
     if not line or line.startswith("#") or "|" not in line:
         continue
-    for w in (p.strip() for p in line.split("|")):
+    one, three = (p.strip() for p in line.split("|"))
+    for w, limit in ((one, 12), (three, 10)):
         key = w.casefold()
-        if w and len(w) <= 22 and key not in seen:
+        if w and len(w) <= limit and key not in seen:
             seen.add(key)
             words.append(w)
 
