@@ -30,7 +30,8 @@ Online: <https://games.kanonenwiese.de/kreuzblock/>
 
 ## Anleitung
 
-`anleitung.html` (über **?** im Kopf): Ablauf eines Zugs in der richtigen
+`anleitung.html` (über **?** im Kopf): benötigte Würfel (2 weiße, je 1 rot,
+gelb, grün, blau), Ablauf eines Zugs in der richtigen
 Reihenfolge – erst die weiße Summe für alle, dann Weiß + Farbe nur für den
 aktiven Spieler, Fehlwurf nur für ihn –, dazu Ankreuzen, Abschließen,
 Spielende, Punktetabelle und die Bedienung des Blocks.
