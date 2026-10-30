@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Anleitung – Farbkreuz</title>
+<meta name="theme-color" content="#20232b">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="bar">
+  <h1>Anleitung</h1>
+  <div class="bar-actions"><a class="btn btn-ghost" href="./">Zum Block</a></div>
+</header>
+
+<main class="view guide">
+
+  <h2 class="sec sec-first">Das brauchst du</h2>
+  <div class="kit">
+    <div class="kit-dice" aria-hidden="true">
+      <span class="kd kd-red"></span><span class="kd kd-yellow"></span><span class="kd kd-green"></span>
+      <span class="kd kd-white"></span><span class="kd kd-white"></span><span class="kd kd-blue"></span>
+    </div>
+    <ul class="rules">
+      <li><strong>6 normale Würfel</strong> – dieselben wie für den Kreuzblock:
+        2 weiße und je 1 roter, gelber, grüner und blauer.</li>
+      <li><strong>Ein Handy pro Spieler</strong> mit Farbkreuz. Alle spielen
+        auf demselben Spielfeld. 1 bis 6 Spieler.</li>
+    </ul>
+  </div>
+
+  <p>Das Original hat Spezialwürfel. Mit normalen Würfeln gilt:</p>
+  <table class="map">
+    <tr><th></th><th>⚀ 1</th><th>⚁ 2</th><th>⚂ 3</th><th>⚃ 4</th><th>⚄ 5</th><th>⚅ 6</th></tr>
+    <tr><th>Farbwürfel<br><small>rot, gelb, grün</small></th>
+      <td><span class="sw c-g"></span><br>Grün</td><td><span class="sw c-y"></span><br>Gelb</td>
+      <td><span class="sw c-b"></span><br>Blau</td><td><span class="sw c-r"></span><br>Rot</td>
+      <td><span class="sw c-o"></span><br>Orange</td><td><strong>Joker</strong></td></tr>
+    <tr><th>Zahlwürfel<br><small>weiß, weiß, blau</small></th>
+      <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td><strong>Joker</strong></td></tr>
+  </table>
+  <p class="note">Die Farbe des Würfels selbst spielt keine Rolle – rot, gelb
+    und grün sind nur die drei „Farbwürfel“, damit man sie auseinanderhält.</p>
+
+  <h2 class="sec">Ein Zug</h2>
+  <p class="lead">Ein Spieler ist am Zug und würfelt alle sechs Würfel. Dann wird
+    gewählt – <strong>immer in dieser Reihenfolge</strong>:</p>
+
+  <ol class="steps">
+    <li class="step">
+      <div class="step-head"><span class="step-no">1</span><h2>Aktiver Spieler wählt</h2>
+        <span class="who who-active">nur der aktive Spieler</span></div>
+      <p>Er nimmt sich <strong>einen Farbwürfel und einen Zahlwürfel</strong>
+        und kreuzt so viele Felder der Farbe an, wie die Zahl zeigt.</p>
+      <p class="example">Farbwürfel zeigt 3 (Blau), Zahlwürfel 4 → 4 blaue Felder.</p>
+    </li>
+    <li class="step">
+      <div class="step-head"><span class="step-no">2</span><h2>Alle anderen wählen</h2>
+        <span class="who who-all">alle Mitspieler</span></div>
+      <p>Danach wählen die Mitspieler – gleichzeitig – je <strong>einen Farb- und
+        einen Zahlwürfel aus den vier übrigen</strong>. Die beiden Würfel des
+        aktiven Spielers sind für sie tabu.</p>
+    </li>
+    <li class="step">
+      <div class="step-head"><span class="step-no">3</span><h2>Passen ist erlaubt</h2>
+        <span class="who who-all">alle</span></div>
+      <p>Jeder darf auch nichts ankreuzen – ohne Strafe. Dann ist der Nächste
+        im Uhrzeigersinn dran.</p>
+    </li>
+  </ol>
+
+  <h2 class="sec">Ankreuzen</h2>
+  <ul class="rules">
+    <li>Genau so viele Felder wie die Zahl, <strong>alle in der gewählten
+      Farbe</strong> und <strong>zusammenhängend</strong> (Seite an Seite, nicht
+      schräg). Eine Farbfläche muss nicht auf einmal voll werden.</li>
+    <li>Der erste Zug beginnt in der <strong>Startspalte H</strong>. Danach muss
+      jeder Zug an <strong>Spalte H oder an eigene Kreuze</strong> grenzen.</li>
+    <li><strong>Joker</strong>: Eine 6 auf einem Farbwürfel ist eine beliebige
+      Farbe, auf einem Zahlwürfel eine beliebige Zahl von 1 bis 5. Jeder benutzte
+      Joker kostet ein <strong>!</strong> – es gibt 8 pro Spiel.</li>
+  </ul>
+
+  <h2 class="sec">Punkte</h2>
+  <ul class="rules">
+    <li><strong>Volle Spalte</strong>: der obere Wert für den Ersten, der untere
+      für alle Späteren (Spalte A und O: 5 / 3, H: 1 / 0).</li>
+    <li><strong>Komplette Farbe</strong> (alle 21 Felder): 5 Punkte für den
+      Ersten, sonst 3.</li>
+    <li>Schaffen das mehrere Spieler im selben Wurf, bekommen alle den oberen Wert.</li>
+    <li>Jedes übrige <strong>!</strong>: +1. Jeder nicht angekreuzte
+      <strong>Stern</strong>: −2.</li>
+  </ul>
+
+  <h2 class="sec">Spielende</h2>
+  <p>Hat ein Spieler seine <strong>zweite Farbe komplett</strong>, wird der
+    laufende Wurf noch zu Ende gespielt – dann ist Schluss. Wer die meisten
+    Punkte hat, gewinnt.</p>
+
+  <h2 class="sec">So bedienst du Farbkreuz</h2>
+  <ul class="rules">
+    <li><strong>Felder antippen</strong>: Sie werden vorgemerkt (Punkt). Unten
+      erscheint die Zugleiste, z. B. „4 × Blau“.</li>
+    <li>Joker benutzt? <strong>Farb-Joker</strong> bzw. <strong>Zahl-Joker</strong>
+      antippen. Dann <strong>Ankreuzen</strong> – die App prüft Farbe,
+      Zusammenhang, Anschluss und höchstens 5 Felder.</li>
+    <li><strong>Spalte oder Farbe</strong> hat ein Mitspieler zuerst voll?
+      Punkte unter der Spalte bzw. das Farbfeld antippen – der obere Wert wird
+      gestrichen.</li>
+    <li><strong>↶</strong> verwirft vorgemerkte Felder oder nimmt den letzten Zug
+      zurück. <strong>Punkte ausrechnen</strong> zeigt alles zusammen.</li>
+    <li>Im <strong>Hochformat</strong> stehen die Spalten A–O untereinander, im
+      <strong>Querformat</strong> sieht das Feld aus wie auf Papier.</li>
+  </ul>
+
+  <a class="btn btn-primary btn-big" href="./">Zum Block</a>
+
+  <p class="footer-note">Kurzfassung der Regeln, keine offizielle Anleitung. Eigenes
+    Spielfeld, nicht mit dem Verlag von „Noch mal!“ verbunden.
+    · <a href="../kontakt.html">Kontakt &amp; Datenschutz</a></p>
+</main>
+</body>
+</html>

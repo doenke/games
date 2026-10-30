@@ -44,6 +44,13 @@
           <span>Ersatz-Wertungsblock für „Qwixx“</span></div>
       </a>
     </li>
+    <li>
+      <a href="farbkreuz/">
+        <img src="farbkreuz/icons/icon-192.png" alt="" width="56" height="56">
+        <div><strong>Farbkreuz</strong>
+          <span>Ersatzblock mit eigenem Feld für „Noch mal!“ – mit normalen Würfeln</span></div>
+      </a>
+    </li>
   </ul>
 
   <section class="material" aria-labelledby="matTitle">
@@ -92,6 +99,15 @@
                ['wuerfel-gruen', 1], ['wuerfel-blau', 1]],
         optional: [],
         app: 'den Wertungsblock',
+        phones: 'ein Handy pro Spieler'
+      },
+      {
+        name: 'Farbkreuz',
+        // Farbwürfel = rot, gelb, grün; Zahlwürfel = beide weißen und der blaue
+        need: [['wuerfel-weiss', 2], ['wuerfel-rot', 1], ['wuerfel-gelb', 1],
+               ['wuerfel-gruen', 1], ['wuerfel-blau', 1]],
+        optional: [],
+        app: 'Spielblock und Spezialwürfel',
         phones: 'ein Handy pro Spieler'
       }
     ];

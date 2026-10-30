@@ -9,6 +9,7 @@ Online: <https://games.kanonenwiese.de/>
 | --- | --- |
 | [`neandertaler/`](neandertaler/) | Zusatzkarten, Timer und Punkte für „Poesie für Neandertaler“ |
 | [`kreuzblock/`](kreuzblock/) | Ersatz-Wertungsblock für „Qwixx“ |
+| [`farbkreuz/`](farbkreuz/) | Ersatzblock mit eigenem Spielfeld für „Noch mal!“, mit normalen Würfeln |
 
 Im Wurzelverzeichnis liegen die Übersicht (`index.html`), die gemeinsame Seite
 „Kontakt & Datenschutz“ (`kontakt.html`, `site.css`) sowie `.htaccess` und

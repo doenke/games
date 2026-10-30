@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Farbkreuz</title>
+<meta name="description" content="Ersatzblock für „Noch mal!“ mit eigenem Spielfeld – offlinefähige PWA.">
+<meta name="theme-color" content="#20232b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Farbkreuz">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="bar">
+  <h1>Farbkreuz</h1>
+  <div class="bar-actions">
+    <button type="button" class="btn btn-ghost" id="btnWake" aria-pressed="false"
+      aria-label="Bildschirm anlassen" title="Bildschirm anlassen">☀</button>
+    <button type="button" class="btn btn-ghost" id="btnUndo" aria-label="Rückgängig" title="Rückgängig">↶</button>
+    <a class="btn btn-ghost" id="btnHelp" href="anleitung.html" aria-label="Anleitung" title="Anleitung">?</a>
+    <button type="button" class="btn btn-ghost" id="btnNew">Neu</button>
+  </div>
+</header>
+
+<main class="view">
+  <div class="board-wrap">
+    <div class="board" id="board"></div>
+  </div>
+
+  <div class="extras">
+    <section class="box">
+      <span class="label">Farben komplett <small>5 für den Ersten, sonst 3</small></span>
+      <div class="colors" id="colors"></div>
+    </section>
+    <section class="box">
+      <span class="label">Joker <small>übrige je +1</small></span>
+      <div class="jokers" id="jokers"></div>
+    </section>
+  </div>
+
+  <p class="notice" id="notice" hidden></p>
+
+  <button type="button" class="btn btn-primary btn-big" id="btnScore">Punkte ausrechnen</button>
+
+  <p class="legend">Mit normalen Würfeln: <strong>Farbe</strong> = roter, gelber, grüner Würfel
+    (1 Grün · 2 Gelb · 3 Blau · 4 Rot · 5 Orange · 6 Joker),
+    <strong>Zahl</strong> = beide weißen und der blaue (1–5, 6 Joker).</p>
+
+  <p class="footer-note">Inoffizieller Ersatzblock mit eigenem Spielfeld, nicht mit dem Verlag
+    von „Noch mal!“ verbunden. · <a href="../kontakt.html">Kontakt &amp; Datenschutz</a></p>
+</main>
+
+<!-- Laufender Zug -->
+<div class="turn" id="turn" hidden>
+  <div class="turn-top">
+    <strong id="turnText"></strong>
+    <div class="turn-jokers">
+      <button type="button" class="chip" id="jkColor" aria-pressed="false">Farb-Joker</button>
+      <button type="button" class="chip" id="jkNumber" aria-pressed="false">Zahl-Joker</button>
+    </div>
+  </div>
+  <div class="turn-actions">
+    <button type="button" class="btn btn-ghost" id="btnDiscard">Verwerfen</button>
+    <button type="button" class="btn btn-primary" id="btnConfirm">Ankreuzen</button>
+  </div>
+</div>
+
+<!-- Punkte -->
+<dialog id="dlgScore" class="sheet">
+  <form method="dialog">
+    <h3>Punkte</h3>
+    <table class="score-table" id="scoreTable"></table>
+    <button class="btn btn-primary">Fertig</button>
+  </form>
+</dialog>
+
+<!-- Neues Spiel -->
+<dialog id="dlgNew" class="sheet">
+  <form method="dialog">
+    <h3>Neues Spiel?</h3>
+    <p>Alle Kreuze, Joker und Markierungen werden gelöscht.</p>
+    <button type="button" class="btn btn-primary" id="btnNewConfirm">Neues Spiel</button>
+    <button class="btn btn-ghost">Abbrechen</button>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" hidden><span id="toastText"></span><button type="button" id="toastAction" class="btn btn-ghost" hidden></button></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
