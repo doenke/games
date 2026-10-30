@@ -38,4 +38,23 @@ Jeder Push auf `main` spiegelt das Repository per SFTP auf den Webspace, siehe
 
 ## Warteliste
 
-Spiele, die noch gebaut werden sollen. Gerade leer.
+Spiele, die noch gebaut werden sollen.
+
+- **Musik-Zeitstrahl** (eigenes Spiel in der Art von Hitster, kein Nachbau) –
+  zurückgestellt. Stand der Überlegungen:
+  - Song läuft verdeckt, man legt ihn in seine Zeitleiste, dann wird das Jahr
+    aufgedeckt. Eigene Regeln (z. B. 10 Karten zum Sieg, Bonus für Interpret
+    und Titel, Joker). Zeitleiste auf dem Handy oder mit Zetteln.
+  - Abspielen über die Spotify Web API (Fernsteuerung der Spotify-App, „Start
+    Playback“), damit Titel und Interpret verborgen bleiben. Spotify-Links
+    öffnen würde den Titel sofort anzeigen.
+  - Voraussetzungen: Spotify Premium; eigene, kostenlose App auf
+    developer.spotify.com mit Weiterleitung auf games.kanonenwiese.de;
+    Anmeldung per OAuth mit PKCE direkt im Browser, ohne Server; im
+    Entwicklermodus nur freigeschaltete Konten (bis zu 25); Spotify muss auf
+    dem Handy einmal geöffnet sein.
+  - Vorher klären: Spotifys Entwicklerregeln zu Spielen/Quiz prüfen.
+  - Songliste mit Erscheinungsjahr selbst pflegen (Spotify nennt bei Remastern
+    oft das falsche Jahr); die App sucht die Titel zur Laufzeit über die API.
+  - Offen: Premium und Entwickler-App vorhanden? Welche Musik (Charts 60er bis
+    heute, deutsche Hits, gemischt)? Datenschutztext muss Spotify erwähnen.
