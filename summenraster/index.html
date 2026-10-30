@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Summenraster</title>
+<meta name="description" content="Ersatzblock für „Knister“ – offlinefähige PWA.">
+<meta name="theme-color" content="#1d2730">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Summenraster">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="bar">
+  <h1>Summenraster</h1>
+  <div class="bar-actions">
+    <button type="button" class="btn btn-ghost" id="btnWake" aria-pressed="false"
+      aria-label="Bildschirm anlassen" title="Bildschirm anlassen">☀</button>
+    <button type="button" class="btn btn-ghost" id="btnUndo" aria-label="Rückgängig" title="Rückgängig">↶</button>
+    <a class="btn btn-ghost" id="btnHelp" href="anleitung.html" aria-label="Anleitung" title="Anleitung">?</a>
+    <button type="button" class="btn btn-ghost" id="btnNew">Neu</button>
+  </div>
+</header>
+
+<main class="view">
+  <p class="status" id="status"></p>
+
+  <div class="grid" id="grid"></div>
+
+  <button type="button" class="btn btn-primary btn-big" id="btnScore">Punkte ausrechnen</button>
+
+  <p class="legend">Gewürfelt wird mit den <strong>2 weißen Würfeln</strong>. Alle tragen
+    dieselbe Summe ein. Die beiden Diagonalen zählen doppelt.</p>
+
+  <p class="footer-note">Inoffizieller Ersatzblock, nicht mit dem Verlag von „Knister“
+    verbunden. · <a href="../kontakt.html">Kontakt &amp; Datenschutz</a></p>
+</main>
+
+<!-- Zahlen 2–12 -->
+<div class="pad" id="pad" role="group" aria-label="Gewürfelte Summe"></div>
+
+<!-- Punkte -->
+<dialog id="dlgScore" class="sheet">
+  <form method="dialog">
+    <h3>Punkte</h3>
+    <table class="score-table" id="scoreTable"></table>
+    <button class="btn btn-primary">Fertig</button>
+  </form>
+</dialog>
+
+<!-- Neues Spiel -->
+<dialog id="dlgNew" class="sheet">
+  <form method="dialog">
+    <h3>Neues Spiel?</h3>
+    <p>Alle eingetragenen Zahlen werden gelöscht.</p>
+    <button type="button" class="btn btn-primary" id="btnNewConfirm">Neues Spiel</button>
+    <button class="btn btn-ghost">Abbrechen</button>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" hidden><span id="toastText"></span><button type="button" id="toastAction" class="btn btn-ghost" hidden></button></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
