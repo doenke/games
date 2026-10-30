@@ -14,6 +14,9 @@ hat dort ein eigenes `README.md` und ggf. `CLAUDE.md` mit seinen Regeln.
 ## Aufbau
 
 - `index.html` – Übersicht aller Spiele; neues Spiel dort als Karte eintragen.
+  Kniffligere Spiele bekommen `class="more"` an der Karte und `more: true` in
+  `GAMES` – sie erscheinen erst mit dem Schalter „Mehr Spiele“ (Standard aus,
+  gemerkt unter `uebersicht:mehr`), auch in Packliste und Materialliste.
 - Spielmaterial: Liste `GAMES`/`ITEMS` im Skript von `index.html` – jedes neue
   Spiel mit seinem Material eintragen (Pflicht und optional, was die App
   ersetzt, Handys). Daraus entstehen Packliste und Übersicht pro Spiel.

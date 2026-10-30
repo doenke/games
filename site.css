@@ -59,6 +59,42 @@ a { color: var(--muted); }
 /* ------------------------------------------------ Spielkarten */
 
 .games { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+/* „Mehr Spiele“: kniffligere Spiele erst nach dem Einschalten zeigen */
+body:not(.show-more) .games .more { display: none; }
+
+.more-switch {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 2px 0;
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.more-switch small { color: var(--muted); font-weight: 400; }
+.more-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.more-switch .track {
+  flex: none;
+  width: 50px; height: 30px;
+  border-radius: 15px;
+  background: var(--felt-dark);
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / .25);
+  position: relative;
+  transition: background .2s;
+}
+.more-switch .track::after {
+  content: "";
+  position: absolute;
+  top: 4px; left: 4px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--card);
+  transition: transform .2s;
+}
+.more-switch input:checked + .track { background: var(--gold); box-shadow: none; }
+.more-switch input:checked + .track::after { transform: translateX(20px); }
+.more-switch input:focus-visible + .track { outline: 2px solid var(--gold); outline-offset: 2px; }
 .games a {
   position: relative;
   display: flex;

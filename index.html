@@ -44,7 +44,7 @@
           <span>Ersatz-Wertungsblock für „Qwixx“</span></div>
       </a>
     </li>
-    <li>
+    <li class="more">
       <a href="farbkreuz/">
         <img src="farbkreuz/icons/icon-192.png" alt="" width="56" height="56">
         <div><strong>Farbkreuz</strong>
@@ -58,7 +58,7 @@
           <span>Ersatzblock für „Knister“ – Würfelsummen ins Raster, Punkte automatisch</span></div>
       </a>
     </li>
-    <li>
+    <li class="more">
       <a href="schlaufuchs/">
         <img src="schlaufuchs/icons/icon-192.png" alt="" width="56" height="56">
         <div><strong>Schlaufuchs</strong>
@@ -73,6 +73,12 @@
       </a>
     </li>
   </ul>
+
+  <label class="more-switch">
+    <input type="checkbox" id="moreGames" role="switch">
+    <span class="track" aria-hidden="true"></span>
+    <span>Mehr Spiele <small>– etwas kniffliger, eher für Geübte</small></span>
+  </label>
 
   <section class="material" aria-labelledby="matTitle">
     <h2 id="matTitle">Spielmaterial</h2>
@@ -106,14 +112,13 @@
       'wuerfel-blau':  { name: 'blauer Würfel', plural: 'blaue Würfel', die: 'blue' },
       'wuerfel-orange': { name: 'orangener Würfel', plural: 'orangene Würfel', die: 'orange' },
       'wuerfel-lila':  { name: 'lila Würfel', plural: 'lila Würfel', die: 'purple' },
-      'wuerfel-nochmal': { name: 'Würfel aus „Noch mal!“ (3 Farb-, 3 Zahlwürfel)', die: 'nochmal' },
-      'keule':         { name: 'etwas Weiches als „Keule“ zum Bonken' }
+      'wuerfel-nochmal': { name: 'Würfel aus „Noch mal!“ (3 Farb-, 3 Zahlwürfel)', die: 'nochmal' }
     };
     var GAMES = [
       {
         name: 'Neandertaler',
         need: [],
-        optional: [['keule', 1]],
+        optional: [],
         app: 'Karten, Timer und Punkte',
         phones: 'ein Handy für alle'
       },
@@ -127,6 +132,7 @@
       },
       {
         name: 'Farbkreuz',
+        more: true,      // nur bei „Mehr Spiele“
         need: [['wuerfel-nochmal', 6]],
         optional: [],
         app: 'den Spielblock',
@@ -141,6 +147,7 @@
       },
       {
         name: 'Schlaufuchs',
+        more: true,      // nur bei „Mehr Spiele“
         // Originalfarben: Weiß, Gelb, Blau, Grün, Orange, Lila
         need: [['wuerfel-weiss', 1], ['wuerfel-gelb', 1], ['wuerfel-blau', 1],
                ['wuerfel-gruen', 1], ['wuerfel-orange', 1], ['wuerfel-lila', 1]],
@@ -177,49 +184,68 @@
       return li;
     }
 
-    // Packliste: größte Anzahl je Teil über alle Spiele
-    var need = {}, opt = {};
-    GAMES.forEach(function (g) {
-      g.need.forEach(function (x) { need[x[0]] = Math.max(need[x[0]] || 0, x[1]); });
-      g.optional.forEach(function (x) { opt[x[0]] = Math.max(opt[x[0]] || 0, x[1]); });
-    });
-    var pack = document.getElementById('pack');
-    var ul = document.createElement('ul');
-    ul.className = 'pack-list';
-    Object.keys(ITEMS).forEach(function (id) { if (need[id]) ul.appendChild(chip(id, need[id])); });
-    var total = Object.keys(need).filter(function (id) { return ITEMS[id].die; })
-      .reduce(function (s, id) { return s + need[id]; }, 0);
-    var h = document.createElement('p');
-    h.className = 'pack-head';
-    h.textContent = total ? 'Packliste: ' + total + ' Würfel' : 'Packliste';
-    pack.appendChild(h);
-    pack.appendChild(ul);
-    var optIds = Object.keys(opt).filter(function (id) { return !need[id]; });
-    if (optIds.length) {
-      var o = document.createElement('p');
-      o.className = 'pack-optional';
-      o.textContent = 'Optional: ' + optIds.map(function (id) { return ITEMS[id].name; }).join(', ');
-      pack.appendChild(o);
+    // Packliste und Liste pro Spiel; „Mehr Spiele“ blendet Fortgeschrittenes ein.
+    var KEY_MORE = 'uebersicht:mehr';
+    var sw = document.getElementById('moreGames');
+    try { sw.checked = localStorage.getItem(KEY_MORE) === '1'; } catch (e) { /* egal */ }
+
+    function render() {
+      var more = sw.checked;
+      document.body.classList.toggle('show-more', more);
+      var games = GAMES.filter(function (g) { return more || !g.more; });
+
+      // Packliste: größte Anzahl je Teil über alle gezeigten Spiele
+      var need = {}, opt = {};
+      games.forEach(function (g) {
+        g.need.forEach(function (x) { need[x[0]] = Math.max(need[x[0]] || 0, x[1]); });
+        g.optional.forEach(function (x) { opt[x[0]] = Math.max(opt[x[0]] || 0, x[1]); });
+      });
+      var pack = document.getElementById('pack');
+      pack.textContent = '';
+      var ul = document.createElement('ul');
+      ul.className = 'pack-list';
+      Object.keys(ITEMS).forEach(function (id) { if (need[id]) ul.appendChild(chip(id, need[id])); });
+      var total = Object.keys(need).filter(function (id) { return ITEMS[id].die; })
+        .reduce(function (s, id) { return s + need[id]; }, 0);
+      var h = document.createElement('p');
+      h.className = 'pack-head';
+      h.textContent = total ? 'Packliste: ' + total + ' Würfel' : 'Packliste';
+      pack.appendChild(h);
+      pack.appendChild(ul);
+      var optIds = Object.keys(opt).filter(function (id) { return !need[id]; });
+      if (optIds.length) {
+        var o = document.createElement('p');
+        o.className = 'pack-optional';
+        o.textContent = 'Optional: ' + optIds.map(function (id) { return ITEMS[id].name; }).join(', ');
+        pack.appendChild(o);
+      }
+
+      // Pro Spiel
+      var per = document.getElementById('perGame');
+      per.textContent = '';
+      games.forEach(function (g) {
+        var li = document.createElement('li');
+        var t = document.createElement('strong');
+        t.textContent = g.name;
+        var d = document.createElement('span');
+        var parts = g.need.length
+          ? g.need.map(function (x) { return label(x[0], x[1]); }).join(', ')
+          : 'kein Material';
+        if (g.optional.length) {
+          parts += ' (optional: ' + g.optional.map(function (x) { return ITEMS[x[0]].name; }).join(', ') + ')';
+        }
+        d.textContent = parts + ' · App ersetzt ' + g.app + ' · ' + g.phones;
+        li.appendChild(t);
+        li.appendChild(d);
+        per.appendChild(li);
+      });
     }
 
-    // Pro Spiel
-    var per = document.getElementById('perGame');
-    GAMES.forEach(function (g) {
-      var li = document.createElement('li');
-      var t = document.createElement('strong');
-      t.textContent = g.name;
-      var d = document.createElement('span');
-      var parts = g.need.length
-        ? g.need.map(function (x) { return label(x[0], x[1]); }).join(', ')
-        : 'kein Material';
-      if (g.optional.length) {
-        parts += ' (optional: ' + g.optional.map(function (x) { return ITEMS[x[0]].name; }).join(', ') + ')';
-      }
-      d.textContent = parts + ' · App ersetzt ' + g.app + ' · ' + g.phones;
-      li.appendChild(t);
-      li.appendChild(d);
-      per.appendChild(li);
+    sw.addEventListener('change', function () {
+      try { localStorage.setItem(KEY_MORE, sw.checked ? '1' : '0'); } catch (e) { /* egal */ }
+      render();
     });
+    render();
   })();
 </script>
 <script>
