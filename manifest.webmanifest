@@ -80,6 +80,19 @@
           "type": "image/png"
         }
       ]
+    },
+    {
+      "name": "Schlaufuchs",
+      "short_name": "Schlaufuchs",
+      "description": "Wertungsblatt nach „Ganz schön clever“",
+      "url": "schlaufuchs/",
+      "icons": [
+        {
+          "src": "schlaufuchs/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

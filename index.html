@@ -58,6 +58,13 @@
           <span>Ersatzblock für „Knister“ – Würfelsummen ins Raster, Punkte automatisch</span></div>
       </a>
     </li>
+    <li>
+      <a href="schlaufuchs/">
+        <img src="schlaufuchs/icons/icon-192.png" alt="" width="56" height="56">
+        <div><strong>Schlaufuchs</strong>
+          <span>Eigenes Wertungsblatt nach „Ganz schön clever“ – Boni und Füchse automatisch</span></div>
+      </a>
+    </li>
   </ul>
 
   <section class="material" aria-labelledby="matTitle">
@@ -120,6 +127,15 @@
       {
         name: 'Summenraster',
         need: [['wuerfel-weiss', 2]],
+        optional: [],
+        app: 'den Spielblock',
+        phones: 'ein Handy pro Spieler'
+      },
+      {
+        name: 'Schlaufuchs',
+        // ein weißer Würfel mit Punkt markiert = Lila, Rot statt Orange
+        need: [['wuerfel-weiss', 2], ['wuerfel-rot', 1], ['wuerfel-gelb', 1],
+               ['wuerfel-gruen', 1], ['wuerfel-blau', 1]],
         optional: [],
         app: 'den Spielblock',
         phones: 'ein Handy pro Spieler'

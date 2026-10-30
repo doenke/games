@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Schlaufuchs</title>
+<meta name="description" content="Eigenes Wertungsblatt nach dem Prinzip von „Ganz schön clever“ – offlinefähige PWA.">
+<meta name="theme-color" content="#221d2b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Schlaufuchs">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="bar">
+  <h1>Schlaufuchs</h1>
+  <div class="bar-actions">
+    <button type="button" class="btn btn-ghost" id="btnWake" aria-pressed="false"
+      aria-label="Bildschirm anlassen" title="Bildschirm anlassen">☀</button>
+    <button type="button" class="btn btn-ghost" id="btnUndo" aria-label="Rückgängig" title="Rückgängig">↶</button>
+    <a class="btn btn-ghost" id="btnHelp" href="anleitung.html" aria-label="Anleitung" title="Anleitung">?</a>
+    <button type="button" class="btn btn-ghost" id="btnNew">Neu</button>
+  </div>
+</header>
+
+<main class="view">
+
+  <section class="top">
+    <div class="rounds-wrap">
+      <span class="label" id="roundInfo"></span>
+      <div class="rounds" id="rounds"></div>
+    </div>
+    <div class="stock">
+      <button type="button" class="st" id="useRe"><span class="bn bn-re">↻</span><b id="cntRe">0</b><small>Neuwurf</small></button>
+      <button type="button" class="st" id="usePlus"><span class="bn bn-plus">+1</span><b id="cntPlus">0</b><small>+1</small></button>
+      <div class="st st-fox"><span class="bn bn-fox">F</span><b id="cntFox">0</b><small>Füchse</small></div>
+    </div>
+  </section>
+
+  <section class="area area-y">
+    <h2><span>Gelb</span> <small>Zahl des gelben Würfels ankreuzen</small><b id="sy">0</b></h2>
+    <div class="grid-y" id="areaY"></div>
+  </section>
+
+  <section class="area area-b">
+    <h2><span>Blau</span> <small>Summe Blau + Weiß</small><b id="sb">0</b></h2>
+    <div class="grid-b" id="areaB"></div>
+    <div class="track" id="trackB" aria-label="Punkte nach Anzahl Kreuze"></div>
+  </section>
+
+  <section class="area area-g">
+    <h2><span>Grün</span> <small>von links, mindestens so hoch</small><b id="sg">0</b></h2>
+    <div class="row11" id="areaG"></div>
+    <div class="track" id="trackG" aria-label="Punkte nach Anzahl Kreuze"></div>
+  </section>
+
+  <section class="area area-o">
+    <h2><span>Rot</span> <small>Augenzahl eintragen</small><b id="so">0</b></h2>
+    <div class="row11" id="areaO"></div>
+  </section>
+
+  <section class="area area-p">
+    <h2><span>Lila</span> <small>immer höher, nach 6 wieder alles</small><b id="sp">0</b></h2>
+    <div class="row11" id="areaP"></div>
+  </section>
+
+  <button type="button" class="btn btn-primary btn-big" id="btnScore">Punkte ausrechnen · <span id="total">0</span></button>
+
+  <p class="legend">Würfel: <strong>Weiß</strong> = Joker · <strong>Lila</strong> = weißer
+    Würfel mit Punkt · <strong>Rot</strong>, <strong>Gelb</strong>, <strong>Grün</strong>,
+    <strong>Blau</strong> wie gewohnt.</p>
+
+  <p class="footer-note">Eigenes Wertungsblatt nach dem Prinzip von „Ganz schön clever“,
+    nicht mit dem Verlag verbunden. · <a href="../kontakt.html">Kontakt &amp; Datenschutz</a></p>
+</main>
+
+<!-- Offener Bonus -->
+<div class="choice" id="choice" hidden>
+  <span id="choiceText"></span>
+  <button type="button" class="btn btn-ghost" id="choiceSkip">Verfallen lassen</button>
+</div>
+
+<!-- Zahl eintragen -->
+<dialog id="dlgPick" class="sheet">
+  <form method="dialog">
+    <h3 id="pickTitle"></h3>
+    <div class="pick-nums" id="pickNums"></div>
+    <button class="btn btn-ghost">Abbrechen</button>
+  </form>
+</dialog>
+
+<!-- Punkte -->
+<dialog id="dlgScore" class="sheet">
+  <form method="dialog">
+    <h3>Punkte</h3>
+    <table class="score-table" id="scoreTable"></table>
+    <button class="btn btn-primary">Fertig</button>
+  </form>
+</dialog>
+
+<!-- Neues Spiel -->
+<dialog id="dlgNew" class="sheet">
+  <form method="dialog">
+    <h3>Neues Spiel?</h3>
+    <p>Alle Kreuze, Zahlen und Boni werden gelöscht.</p>
+    <fieldset class="players">
+      <legend>Spieler</legend>
+      <label><input type="radio" name="players" value="1"><span>1</span></label>
+      <label><input type="radio" name="players" value="2" checked><span>2</span></label>
+      <label><input type="radio" name="players" value="3"><span>3</span></label>
+      <label><input type="radio" name="players" value="4"><span>4</span></label>
+    </fieldset>
+    <p class="hint">1–2 Spieler: 6 Runden · 3 Spieler: 5 · 4 Spieler: 4</p>
+    <button type="button" class="btn btn-primary" id="btnNewConfirm">Neues Spiel</button>
+    <button class="btn btn-ghost">Abbrechen</button>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" hidden><span id="toastText"></span><button type="button" id="toastAction" class="btn btn-ghost" hidden></button></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

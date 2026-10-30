@@ -11,6 +11,7 @@ Online: <https://games.kanonenwiese.de/>
 | [`kreuzblock/`](kreuzblock/) | Ersatz-Wertungsblock für „Qwixx“ |
 | [`farbkreuz/`](farbkreuz/) | Ersatzblock mit eigenem Spielfeld für „Noch mal!“, mit normalen Würfeln |
 | [`summenraster/`](summenraster/) | Ersatzblock für „Knister“, mit den 2 weißen Würfeln |
+| [`schlaufuchs/`](schlaufuchs/) | Eigenes Wertungsblatt nach „Ganz schön clever“, mit normalen Würfeln |
 
 Im Wurzelverzeichnis liegen die Übersicht (`index.html`), die gemeinsame Seite
 „Kontakt & Datenschutz“ (`kontakt.html`, `site.css`) sowie `.htaccess` und
@@ -37,8 +38,4 @@ Jeder Push auf `main` spiegelt das Repository per SFTP auf den Webspace, siehe
 ## Warteliste
 
 Spiele, die noch gebaut werden sollen – nur mit den vorhandenen Würfeln
-(2 weiß, je 1 rot, gelb, grün, blau):
-
-- **Ganz schön clever** – Ersatzblock; das Original hat 6 Würfel (weiß, gelb,
-  blau, grün, orange, lila), Orange und Lila müssen über eine Zuordnung
-  ersetzt werden.
+(2 weiß, je 1 rot, gelb, grün, blau). Gerade leer.
