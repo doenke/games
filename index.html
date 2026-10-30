@@ -46,6 +46,14 @@
     </li>
   </ul>
 
+  <section class="material" aria-labelledby="matTitle">
+    <h2 id="matTitle">Spielmaterial</h2>
+    <p class="material-intro">Das musst du für alle Spiele zusammen einpacken –
+      Karten, Blöcke und Timer stecken in den Apps.</p>
+    <div class="pack" id="pack"></div>
+    <ul class="per-game" id="perGame"></ul>
+  </section>
+
   <button type="button" class="share" id="share">
     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor"
       d="M18 16.1c-.8 0-1.4.3-2 .8l-7.1-4.2c.1-.2.1-.5.1-.7s0-.5-.1-.7L16 7.2c.5.5 1.2.8 2 .8 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .2 0 .5.1.7L8 9.8C7.5 9.3 6.8 9 6 9c-1.7 0-3 1.3-3 3s1.3 3 3 3c.8 0 1.5-.3 2-.8l7.1 4.2c-.1.2-.1.4-.1.6 0 1.6 1.3 2.9 2.9 2.9s2.9-1.3 2.9-2.9-1.2-2.9-2.8-2.9z"/></svg>
@@ -57,6 +65,102 @@
 
   <footer><a href="kontakt.html">Kontakt &amp; Datenschutz</a></footer>
 </main>
+<script>
+  // Spielmaterial: pro Spiel, was auf den Tisch muss. Neues Spiel hier eintragen.
+  // Gleiche Dinge teilen sich die Spiele (man spielt nacheinander), deshalb
+  // braucht die Packliste von jedem Teil nur die größte Anzahl eines Spiels.
+  (function () {
+    var ITEMS = {
+      'wuerfel-weiss': { name: 'weiße Würfel', die: 'white' },
+      'wuerfel-rot':   { name: 'roter Würfel', plural: 'rote Würfel', die: 'red' },
+      'wuerfel-gelb':  { name: 'gelber Würfel', plural: 'gelbe Würfel', die: 'yellow' },
+      'wuerfel-gruen': { name: 'grüner Würfel', plural: 'grüne Würfel', die: 'green' },
+      'wuerfel-blau':  { name: 'blauer Würfel', plural: 'blaue Würfel', die: 'blue' },
+      'keule':         { name: 'etwas Weiches als „Keule“ zum Bonken' }
+    };
+    var GAMES = [
+      {
+        name: 'Neandertaler',
+        need: [],
+        optional: [['keule', 1]],
+        app: 'Karten, Timer und Punkte',
+        phones: 'ein Handy für alle'
+      },
+      {
+        name: 'Kreuzblock',
+        need: [['wuerfel-weiss', 2], ['wuerfel-rot', 1], ['wuerfel-gelb', 1],
+               ['wuerfel-gruen', 1], ['wuerfel-blau', 1]],
+        optional: [],
+        app: 'den Wertungsblock',
+        phones: 'ein Handy pro Spieler'
+      }
+    ];
+
+    function label(id, n) {
+      var it = ITEMS[id];
+      return n + ' ' + (n > 1 && it.plural ? it.plural : it.name);
+    }
+    function chip(id, n) {
+      var it = ITEMS[id], li = document.createElement('li');
+      if (it.die) {
+        var dice = document.createElement('span');
+        dice.className = 'dice-row';
+        for (var i = 0; i < n; i++) {
+          var d = document.createElement('span');
+          d.className = 'die die-' + it.die;
+          dice.appendChild(d);
+        }
+        li.appendChild(dice);
+      }
+      li.appendChild(document.createTextNode(label(id, n)));
+      return li;
+    }
+
+    // Packliste: größte Anzahl je Teil über alle Spiele
+    var need = {}, opt = {};
+    GAMES.forEach(function (g) {
+      g.need.forEach(function (x) { need[x[0]] = Math.max(need[x[0]] || 0, x[1]); });
+      g.optional.forEach(function (x) { opt[x[0]] = Math.max(opt[x[0]] || 0, x[1]); });
+    });
+    var pack = document.getElementById('pack');
+    var ul = document.createElement('ul');
+    ul.className = 'pack-list';
+    Object.keys(ITEMS).forEach(function (id) { if (need[id]) ul.appendChild(chip(id, need[id])); });
+    var total = Object.keys(need).filter(function (id) { return ITEMS[id].die; })
+      .reduce(function (s, id) { return s + need[id]; }, 0);
+    var h = document.createElement('p');
+    h.className = 'pack-head';
+    h.textContent = total ? 'Packliste: ' + total + ' Würfel' : 'Packliste';
+    pack.appendChild(h);
+    pack.appendChild(ul);
+    var optIds = Object.keys(opt).filter(function (id) { return !need[id]; });
+    if (optIds.length) {
+      var o = document.createElement('p');
+      o.className = 'pack-optional';
+      o.textContent = 'Optional: ' + optIds.map(function (id) { return ITEMS[id].name; }).join(', ');
+      pack.appendChild(o);
+    }
+
+    // Pro Spiel
+    var per = document.getElementById('perGame');
+    GAMES.forEach(function (g) {
+      var li = document.createElement('li');
+      var t = document.createElement('strong');
+      t.textContent = g.name;
+      var d = document.createElement('span');
+      var parts = g.need.length
+        ? g.need.map(function (x) { return label(x[0], x[1]); }).join(', ')
+        : 'kein Material';
+      if (g.optional.length) {
+        parts += ' (optional: ' + g.optional.map(function (x) { return ITEMS[x[0]].name; }).join(', ') + ')';
+      }
+      d.textContent = parts + ' · App ersetzt ' + g.app + ' · ' + g.phones;
+      li.appendChild(t);
+      li.appendChild(d);
+      per.appendChild(li);
+    });
+  })();
+</script>
 <script>
   // Teilt die Adresse der Übersicht: auf dem Handy über den Teilen-Dialog,
   // sonst wird der Link in die Zwischenablage kopiert.

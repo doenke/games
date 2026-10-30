@@ -88,6 +88,40 @@ a { color: var(--muted); }
 .games strong { display: block; font-size: 1.12rem; }
 .games span { display: block; color: var(--card-muted); font-size: .9rem; line-height: 1.35; }
 
+/* ------------------------------------------------ Spielmaterial */
+
+.material { margin-top: 28px; }
+.material h2 { margin: 0 0 4px; font-size: 1.3rem; }
+.material-intro { margin: 0 0 12px; color: var(--muted); font-size: .92rem; line-height: 1.45; }
+.pack {
+  background: var(--card);
+  color: var(--card-text);
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+.pack-head { margin: 0 0 8px; font-weight: 800; font-size: 1.05rem; }
+.pack-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.pack-list li { display: flex; align-items: center; gap: 10px; }
+.pack-optional { margin: 10px 0 0; font-size: .85rem; color: var(--card-muted); }
+.dice-row { display: inline-flex; gap: 4px; min-width: 52px; }
+.die {
+  width: 22px; height: 22px;
+  border-radius: 5px;
+  box-shadow: inset 0 -3px 0 rgb(0 0 0 / .18), 0 1px 3px rgb(0 0 0 / .3);
+  background-image: radial-gradient(circle, var(--pip, #1b2420) 0 3px, transparent 3.5px);
+  flex: none;
+}
+.die-white { background-color: #f4f2ea; outline: 1px solid #d8d4c6; outline-offset: -1px; }
+.die-red { background-color: #d6322f; --pip: #fff; }
+.die-yellow { background-color: #e9b81c; }
+.die-green { background-color: #2f9e4f; --pip: #fff; }
+.die-blue { background-color: #2f6fb5; --pip: #fff; }
+
+.per-game { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
+.per-game li { font-size: .88rem; line-height: 1.4; color: var(--muted); }
+.per-game strong { color: var(--text); margin-right: 6px; }
+
 /* ------------------------------------------------ Teilen */
 
 .share {
