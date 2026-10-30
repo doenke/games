@@ -9,24 +9,18 @@ Online: <https://games.kanonenwiese.de/schlaufuchs/>
 
 ## Würfel
 
-Dieselben sechs wie bei Kreuzblock und Farbkreuz:
+Sechs Würfel in den Originalfarben: weiß (Joker), gelb, blau, grün, orange, lila.
 
-| Würfel | Bereich |
-| --- | --- |
-| Weiß | Joker |
-| Weiß mit Punkt (markieren!) | Lila |
-| Rot | Rot (im Original Orange) |
-| Gelb, Grün, Blau | wie die Farbe |
+## Blätter
 
-## Blatt
-
-Alle Werte stehen als Tabellen oben in `js/app.js` (`Y_NUM`, `Y_ROW`, `B_ROW`,
-`G_BONUS`, `O_BONUS`, `P_BONUS`, …). Ändern macht laufende Spiele nicht kaputt,
-verschiebt aber deren Boni.
+Drei eigene Blätter, Auswahl bei „Neu“: Blatt 1, Blatt 2 (andere Zahlen in
+Gelb, andere Boni und Multiplikatoren) und Blatt 3 „Fuchsjagd“ (mehr Füchse).
+Alle Werte stehen in `SHEETS` in `js/app.js`. Reihenfolge nicht ändern,
+laufende Spiele merken sich die Nummer; neue Blätter hinten anhängen.
 
 ## Bedienung
 
-- Gelb, Blau, Grün: Feld antippen. Rot, Lila: nächstes Feld antippen, Augenzahl
+- Gelb, Blau, Grün: Feld antippen. Orange, Lila: nächstes Feld antippen, Augenzahl
   wählen (Lila sperrt unzulässige Zahlen).
 - Boni bucht die App selbst, auch in Ketten. Freie Kreuze in Gelb/Blau blinken,
   bis ein Feld gewählt ist (oder „Verfallen lassen“).

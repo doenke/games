@@ -8,7 +8,10 @@ Online: <https://games.kanonenwiese.de/kreuzblock/>
 
 ## Block
 
-- Vier Reihen wie im Original: Rot und Gelb von 2 bis 12, Grün und Blau von 12
+- Drei Blöcke, Auswahl bei „Neu“: **Klassisch**, **Zahlen gemischt** (eigene
+  Zahlenfolgen je Reihe) und **Farben gemischt** (eigene Farbverteilung je Feld,
+  Reihe gehört zur Farbe ihres Schlosses). Definiert in `SHEETS` in `js/app.js`.
+- Klassisch: vier Reihen wie im Original: Rot und Gelb von 2 bis 12, Grün und Blau von 12
   bis 2. Antippen setzt ein Kreuz.
 - Es geht nur von links nach rechts; übersprungene Felder werden ausgegraut und
   lassen sich nicht mehr ankreuzen.

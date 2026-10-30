@@ -138,6 +138,19 @@ body {
 .line.done { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
 .line.diag { background: color-mix(in srgb, var(--accent) 14%, var(--panel)); }
 
+.pts-box {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 6px 12px 8px;
+}
+.pts-box h2 { margin: 0 0 2px; font-size: .9rem; }
+.pts-box h2 small { color: var(--muted); font-weight: 400; }
+.pts-list { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 18px; }
+.pts-list div { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--line); padding: 1px 0; }
+.pts-list dt { color: var(--muted); font-size: .85rem; }
+.pts-list dd { margin: 0; font-weight: 800; font-variant-numeric: tabular-nums; }
+
 .legend { margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.45; }
 .footer-note { margin: 0; text-align: center; color: var(--muted); font-size: .72rem; }
 .footer-note a { color: var(--muted); }

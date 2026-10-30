@@ -117,6 +117,9 @@ a { color: var(--muted); }
 .die-yellow { background-color: #e9b81c; }
 .die-green { background-color: #2f9e4f; --pip: #fff; }
 .die-blue { background-color: #2f6fb5; --pip: #fff; }
+.die-orange { background-color: #ef8a1f; }
+.die-purple { background-color: #7d4cc2; --pip: #fff; }
+.die-nochmal { background: conic-gradient(#3aa655 0 20%, #f2c230 0 40%, #3a7bd5 0 60%, #e0453a 0 80%, #f08a24 0); }
 
 .per-game { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
 .per-game li { font-size: .88rem; line-height: 1.4; color: var(--muted); }

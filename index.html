@@ -48,7 +48,7 @@
       <a href="farbkreuz/">
         <img src="farbkreuz/icons/icon-192.png" alt="" width="56" height="56">
         <div><strong>Farbkreuz</strong>
-          <span>Ersatzblock mit eigenem Feld für „Noch mal!“ – mit normalen Würfeln</span></div>
+          <span>Ersatzblock mit eigenem Feld für „Noch mal!“</span></div>
       </a>
     </li>
     <li>
@@ -97,6 +97,9 @@
       'wuerfel-gelb':  { name: 'gelber Würfel', plural: 'gelbe Würfel', die: 'yellow' },
       'wuerfel-gruen': { name: 'grüner Würfel', plural: 'grüne Würfel', die: 'green' },
       'wuerfel-blau':  { name: 'blauer Würfel', plural: 'blaue Würfel', die: 'blue' },
+      'wuerfel-orange': { name: 'orangener Würfel', plural: 'orangene Würfel', die: 'orange' },
+      'wuerfel-lila':  { name: 'lila Würfel', plural: 'lila Würfel', die: 'purple' },
+      'wuerfel-nochmal': { name: 'Würfel aus „Noch mal!“ (3 Farb-, 3 Zahlwürfel)', die: 'nochmal' },
       'keule':         { name: 'etwas Weiches als „Keule“ zum Bonken' }
     };
     var GAMES = [
@@ -117,11 +120,9 @@
       },
       {
         name: 'Farbkreuz',
-        // Farbwürfel = rot, gelb, grün; Zahlwürfel = beide weißen und der blaue
-        need: [['wuerfel-weiss', 2], ['wuerfel-rot', 1], ['wuerfel-gelb', 1],
-               ['wuerfel-gruen', 1], ['wuerfel-blau', 1]],
+        need: [['wuerfel-nochmal', 6]],
         optional: [],
-        app: 'Spielblock und Spezialwürfel',
+        app: 'den Spielblock',
         phones: 'ein Handy pro Spieler'
       },
       {
@@ -133,9 +134,9 @@
       },
       {
         name: 'Schlaufuchs',
-        // ein weißer Würfel mit Punkt markiert = Lila, Rot statt Orange
-        need: [['wuerfel-weiss', 2], ['wuerfel-rot', 1], ['wuerfel-gelb', 1],
-               ['wuerfel-gruen', 1], ['wuerfel-blau', 1]],
+        // Originalfarben: Weiß, Gelb, Blau, Grün, Orange, Lila
+        need: [['wuerfel-weiss', 1], ['wuerfel-gelb', 1], ['wuerfel-blau', 1],
+               ['wuerfel-gruen', 1], ['wuerfel-orange', 1], ['wuerfel-lila', 1]],
         optional: [],
         app: 'den Spielblock',
         phones: 'ein Handy pro Spieler'

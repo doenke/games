@@ -11,7 +11,7 @@
   --y: #f2c230;
   --b: #3a7bd5;
   --g: #3aa655;
-  --o: #e0453a;
+  --o: #f08a24;
   --p: #8e5bd0;
   --w: #f4f4f0;
   --safe-b: env(safe-area-inset-bottom, 0px);
@@ -116,7 +116,7 @@ body {
 .a-p { --col: var(--p); }
 .a-w { --col: var(--w); }
 .a-b.bn, .a-g.bn, .a-o.bn, .a-p.bn { color: #fff; }
-.bn-fox { background: var(--accent); }
+.bn-fox { background: #8a5a2b; color: #fff; }
 .bn-re { background: var(--w); font-size: .85rem; }
 .bn-plus { background: var(--w); }
 
@@ -327,6 +327,18 @@ body {
 .players input:checked + span { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 20%, var(--panel)); }
 .players input:focus-visible + span { outline: 2px solid var(--text); }
 
+.choose-sheet { border: 0; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.choose-sheet legend { font-weight: 600; margin-bottom: 6px; padding: 0; }
+.choose-sheet legend small { color: var(--muted); font-weight: 400; }
+.choose-sheet input { position: absolute; opacity: 0; }
+.choose-sheet span {
+  display: grid; place-items: center; text-align: center; min-height: 46px; height: 100%; padding: 4px;
+  border: 2px solid var(--line); border-radius: 10px; font-weight: 800; cursor: pointer; line-height: 1.15;
+}
+.choose-sheet span small { display: block; font-weight: 400; color: var(--muted); font-size: .72rem; }
+.choose-sheet input:checked + span { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 20%, var(--panel)); }
+.choose-sheet input:focus-visible + span { outline: 2px solid var(--text); }
+
 .score-table { width: 100%; border-collapse: collapse; font-size: 1.02rem; }
 .score-table th { text-align: left; padding: 7px 6px; font-weight: 600; }
 .score-table th small { color: var(--muted); font-weight: 400; }
@@ -376,7 +388,7 @@ body {
 .step-no { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; background: var(--accent); color: var(--ink); flex: none; }
 .who { font-size: .78rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
 .who-all { background: color-mix(in srgb, var(--g) 30%, var(--panel)); }
-.who-active { background: color-mix(in srgb, var(--o) 32%, var(--panel)); }
+.who-active { background: color-mix(in srgb, #e0453a 32%, var(--panel)); }
 .example { font-size: .9rem; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 6px; }
 .map { width: 100%; border-collapse: collapse; font-size: .92rem; }
 .map th, .map td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
@@ -386,8 +398,8 @@ body {
 .kd { position: relative; width: 24px; height: 24px; border-radius: 6px; box-shadow: inset 0 -3px 0 rgb(0 0 0 / .18);
   background-image: radial-gradient(circle, var(--pip, #1c1f26) 0 3px, transparent 3.5px); }
 .kd-white { background-color: #f7f7f2; }
-.kd-dot::after { content: ""; position: absolute; right: 3px; top: 3px; width: 6px; height: 6px; border-radius: 50%; background: var(--p); }
-.kd-red { background-color: #d6322f; --pip: #fff; }
+.kd-orange { background-color: #ef8a1f; }
+.kd-purple { background-color: #7d4cc2; --pip: #fff; }
 .kd-yellow { background-color: #e9b81c; }
 .kd-green { background-color: #2f9e4f; --pip: #fff; }
 .kd-blue { background-color: #2f6fb5; --pip: #fff; }

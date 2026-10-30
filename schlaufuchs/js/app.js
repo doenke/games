@@ -11,50 +11,95 @@
 
   // ---------------------------------------------------------------- Blatt
 
-  // Boni: x = freies Kreuz in einem Bereich, n = Zahl in Rot/Lila eintragen,
+  // Boni: x = freies Kreuz in einem Bereich, n = Zahl in Orange/Lila eintragen,
   // fox = Fuchs, reroll = Neuwurf, plus = +1.
   const X = (a) => ({ t: 'x', a });
   const NUM = (a, v) => ({ t: 'n', a, v });
   const FOX = { t: 'fox' }, REROLL = { t: 'reroll' }, PLUS = { t: 'plus' };
 
-  const AREAS = { y: 'Gelb', b: 'Blau', g: 'Grün', o: 'Rot', p: 'Lila' };
+  const AREAS = { y: 'Gelb', b: 'Blau', g: 'Grün', o: 'Orange', p: 'Lila' };
 
-  // Gelb: 4 × 4, 0 = schon vorgekreuzt (Hauptdiagonale)
-  const Y_NUM = [0, 1, 4, 6,
-                 3, 0, 2, 5,
-                 5, 6, 0, 1,
-                 2, 4, 3, 0];
-  const Y_ROW = [NUM('o', 4), X('b'), FOX, X('g')];
-  const Y_COL = [10, 14, 16, 20];
-  const Y_DIAG = [3, 6, 9, 12];            // Gegendiagonale
-  const Y_DIAG_BONUS = PLUS;
-
+  // Gelb: 4 × 4, 0 = schon vorgekreuzt (Hauptdiagonale); Bonus der Gegendiagonale
+  const Y_DIAG = [3, 6, 9, 12];
   // Blau: Summe aus blauem und weißem Würfel, Feld 0 ist das Symbol
   const B_ROWS = [[1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]];
   const B_COLS = [[4, 8], [1, 5, 9], [2, 6, 10], [3, 7, 11]];
-  const B_ROW = [NUM('o', 5), FOX, X('y')];
-  const B_COL = [PLUS, NUM('p', 6), X('g'), REROLL];
   const B_PTS = [0, 1, 2, 4, 7, 11, 16, 22, 29, 37, 46, 56];
-
   // Grün: von links nach rechts, Würfel mindestens so hoch wie das Feld
-  const G_MIN = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6];
-  const G_BONUS = { 3: PLUS, 5: FOX, 6: X('b'), 8: REROLL, 9: NUM('p', 6) };
   const G_PTS = [0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66];
+  // Orange: Augenzahl eintragen, manche Felder zählen mehrfach.
+  // Lila: jede Zahl größer als die vorige, nach einer 6 wieder alles.
 
-  // Rot (statt Orange): Augenzahl eintragen, manche Felder zählen mehrfach
-  const O_MULT = [1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 3];
-  const O_BONUS = { 2: PLUS, 4: REROLL, 5: X('y'), 7: NUM('p', 6), 9: FOX };
-
-  // Lila: jede Zahl größer als die vorige, nach einer 6 wieder alles
-  const P_BONUS = { 2: PLUS, 3: X('y'), 4: REROLL, 5: X('b'), 6: FOX, 7: PLUS, 8: NUM('o', 6), 9: X('g'), 10: REROLL };
+  // Blätter: Reihenfolge nicht ändern, laufende Spiele merken sich die Nummer.
+  const SHEETS = [
+    {
+      name: 'Blatt 1',
+      yNum: [0, 1, 4, 6,
+             3, 0, 2, 5,
+             5, 6, 0, 1,
+             2, 4, 3, 0],
+      yRow: [NUM('o', 4), X('b'), FOX, X('g')],
+      yCol: [10, 14, 16, 20],
+      yDiag: PLUS,
+      bRow: [NUM('o', 5), FOX, X('y')],
+      bCol: [PLUS, NUM('p', 6), X('g'), REROLL],
+      gMin: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6],
+      gBonus: { 3: PLUS, 5: FOX, 6: X('b'), 8: REROLL, 9: NUM('p', 6) },
+      oMult: [1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 3],
+      oBonus: { 2: PLUS, 4: REROLL, 5: X('y'), 7: NUM('p', 6), 9: FOX },
+      pBonus: { 2: PLUS, 3: X('y'), 4: REROLL, 5: X('b'), 6: FOX, 7: PLUS, 8: NUM('o', 6), 9: X('g'), 10: REROLL }
+    },
+    {
+      name: 'Blatt 2',
+      yNum: [0, 6, 3, 5,
+             2, 0, 4, 1,
+             4, 1, 0, 6,
+             5, 3, 2, 0],
+      yRow: [X('g'), NUM('p', 6), REROLL, FOX],
+      yCol: [12, 14, 16, 18],
+      yDiag: X('b'),
+      bRow: [X('g'), NUM('o', 4), FOX],
+      bCol: [REROLL, X('y'), PLUS, NUM('p', 6)],
+      gMin: [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5],
+      gBonus: { 2: PLUS, 4: X('y'), 6: FOX, 8: NUM('o', 5), 9: REROLL },
+      oMult: [1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 3],
+      oBonus: { 1: REROLL, 3: X('b'), 5: PLUS, 7: FOX, 9: NUM('p', 6) },
+      pBonus: { 1: REROLL, 3: PLUS, 4: X('g'), 5: FOX, 6: X('b'), 7: REROLL, 8: NUM('o', 6), 9: X('y'), 10: PLUS }
+    },
+    {
+      name: 'Blatt 3 · Fuchsjagd',
+      yNum: [0, 2, 5, 3,
+             6, 0, 1, 4,
+             3, 5, 0, 2,
+             1, 6, 4, 0],
+      yRow: [FOX, X('b'), NUM('o', 5), FOX],
+      yCol: [10, 14, 16, 20],
+      yDiag: PLUS,
+      bRow: [FOX, X('g'), REROLL],
+      bCol: [X('y'), PLUS, NUM('p', 6), FOX],
+      gMin: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6],
+      gBonus: { 3: FOX, 5: PLUS, 7: X('y'), 9: REROLL },
+      oMult: [1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 3],
+      oBonus: { 2: REROLL, 4: FOX, 6: X('g'), 8: PLUS },
+      pBonus: { 2: FOX, 4: REROLL, 5: X('b'), 6: PLUS, 8: X('y'), 9: NUM('o', 6), 10: FOX }
+    }
+  ];
+  let Y_NUM, Y_ROW, Y_COL, Y_DIAG_BONUS, B_ROW, B_COL, G_MIN, G_BONUS, O_MULT, O_BONUS, P_BONUS;
+  function useSheet(n) {
+    const t = SHEETS[n];
+    ({ yNum: Y_NUM, yRow: Y_ROW, yCol: Y_COL, yDiag: Y_DIAG_BONUS, bRow: B_ROW, bCol: B_COL,
+       gMin: G_MIN, gBonus: G_BONUS, oMult: O_MULT, oBonus: O_BONUS, pBonus: P_BONUS } = t);
+  }
+  useSheet(0);
 
   const ROUNDS = { 1: 6, 2: 6, 3: 5, 4: 4 };
   const ROUND_BONUS = [REROLL, PLUS, REROLL];
 
   // ---------------------------------------------------------------- Zustand
 
-  const fresh = (players = 2) => ({
+  const fresh = (players = 2, sheet = 0) => ({
     players,
+    sheet,
     round: 1,
     y: Y_NUM.map((n) => n === 0),
     b: Array(12).fill(false),
@@ -71,6 +116,8 @@
   let game;
   try { game = JSON.parse(localStorage.getItem(KEY)); } catch { game = null; }
   if (!game || !Array.isArray(game.y) || game.y.length !== 16) game = fresh();
+  game.sheet = SHEETS[game.sheet] ? game.sheet : 0;
+  useSheet(game.sheet);
   game.undo = game.undo || [];
   game.queue = game.queue || [];
 
@@ -98,7 +145,7 @@
       case 'plus': game.plus++; msgs.push('+1'); break;
       case 'n':
         if (bonus.a === 'o') {
-          if (game.o.length < 11) { msgs.push(`Rot ${bonus.v}`); writeO(bonus.v); } else msgs.push('Rot ist voll – Bonus verfällt');
+          if (game.o.length < 11) { msgs.push(`Orange ${bonus.v}`); writeO(bonus.v); } else msgs.push('Orange ist voll – Bonus verfällt');
         } else if (game.p.length < 11 && pAllowed(bonus.v)) { msgs.push(`Lila ${bonus.v}`); writeP(bonus.v); }
         else msgs.push('Lila passt nicht – Bonus verfällt');
         break;
@@ -208,7 +255,7 @@
     $('areaB').innerHTML = h;
     $('trackB').innerHTML = B_PTS.slice(1).map((p, i) => `<span data-n="${i + 1}">${p}</span>`).join('');
 
-    // Grün, Rot, Lila
+    // Grün, Orange, Lila
     $('areaG').innerHTML = G_MIN.map((m, i) =>
       `<button type="button" class="f fg" data-g="${i}"><small>≥</small>${m}</button>`).join('') +
       G_MIN.map((_, i) => `<div class="cb">${bonusHtml(G_BONUS[i])}</div>`).join('');
@@ -234,7 +281,7 @@
     $('rounds').innerHTML = Array.from({ length: n }, (_, i) =>
       `<button type="button" class="rd${i + 1 < game.round ? ' past' : ''}${i + 1 === game.round ? ' now' : ''}" data-round="${i + 1}">` +
       `${i + 1}${ROUND_BONUS[i] ? `<small>${ROUND_BONUS[i].t === 'plus' ? '+1' : '↻'}</small>` : ''}</button>`).join('');
-    $('roundInfo').textContent = `Runde ${game.round} von ${n} · ${game.players} ${game.players === 1 ? 'Spieler' : 'Spieler'}`;
+    $('roundInfo').textContent = `Runde ${game.round} von ${n} · ${game.players} Spieler · ${SHEETS[game.sheet].name}`;
 
     // Vorräte
     $('cntRe').textContent = game.reroll - game.rerollUsed;
@@ -264,7 +311,7 @@
       b.classList.toggle('next', i === game.g);
     }
     for (const t of document.querySelectorAll('#trackG span')) t.classList.toggle('on', Number(t.dataset.n) === game.g);
-    // Rot
+    // Orange
     for (const b of document.querySelectorAll('[data-o]')) {
       const i = Number(b.dataset.o);
       const v = game.o[i];
@@ -298,7 +345,7 @@
     const row = (name, v, cls = '') => `<tr class="${cls}"><th>${name}</th><td>${v}</td></tr>`;
     $('scoreTable').innerHTML =
       row('Gelb', s.y, 'a-y-row') + row('Blau', s.b, 'a-b-row') + row('Grün', s.g, 'a-g-row') +
-      row('Rot', s.o, 'a-o-row') + row('Lila', s.p, 'a-p-row') +
+      row('Orange', s.o, 'a-o-row') + row('Lila', s.p, 'a-p-row') +
       row(`Füchse: ${game.foxes} × ${s.min} <small>(schwächster Bereich)</small>`, s.fox) +
       `<tr class="sc-total"><th>Gesamt</th><td>${s.total}</td></tr>`;
   }
@@ -370,7 +417,7 @@
     picker = { area };
     const i = game[area].length;
     $('pickTitle').textContent = area === 'o'
-      ? `Rot: Augenzahl eintragen${O_MULT[i] > 1 ? ` (zählt ×${O_MULT[i]})` : ''}`
+      ? `Orange: Augenzahl eintragen${O_MULT[i] > 1 ? ` (zählt ×${O_MULT[i]})` : ''}`
       : `Lila: Augenzahl eintragen${game.p.length && pLast() !== 6 ? ` (größer als ${pLast()})` : ''}`;
     for (const b of document.querySelectorAll('.pick')) {
       b.disabled = area === 'p' && !pAllowed(Number(b.dataset.v));
@@ -400,11 +447,15 @@
   $('btnScore').addEventListener('click', () => { renderScore(); $('dlgScore').showModal(); });
   $('btnNew').addEventListener('click', () => {
     for (const r of document.querySelectorAll('input[name="players"]')) r.checked = Number(r.value) === game.players;
+    for (const r of document.querySelectorAll('input[name="sheet"]')) r.checked = Number(r.value) === game.sheet;
     $('dlgNew').showModal();
   });
   $('btnNewConfirm').addEventListener('click', () => {
     const p = Number(document.querySelector('input[name="players"]:checked')?.value || 2);
-    game = fresh(p);
+    const sheet = Number(document.querySelector('input[name="sheet"]:checked')?.value || 0);
+    useSheet(sheet);
+    game = fresh(p, sheet);
+    build();
     save(); render(); $('dlgNew').close();
     window.scrollTo({ top: 0 });
   });

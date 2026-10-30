@@ -31,6 +31,7 @@
 
 <!-- Block -->
 <main id="viewBlock" class="view">
+  <p class="sheet-name" id="sheetName" hidden></p>
   <div class="rows" id="rows"></div>
 
   <section class="penalties">
@@ -61,6 +62,12 @@
   <form method="dialog">
     <h3>Neues Spiel?</h3>
     <p>Alle Kreuze und Fehlwürfe werden gelöscht.</p>
+    <fieldset class="choose-sheet">
+      <legend>Block</legend>
+      <label><input type="radio" name="sheet" value="classic" checked><span>Klassisch</span></label>
+      <label><input type="radio" name="sheet" value="numbers"><span>Zahlen gemischt</span></label>
+      <label><input type="radio" name="sheet" value="colors"><span>Farben gemischt</span></label>
+    </fieldset>
     <button type="button" class="btn btn-primary" id="btnNewConfirm">Neues Spiel</button>
     <button class="btn btn-ghost">Abbrechen</button>
   </form>

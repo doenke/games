@@ -30,6 +30,7 @@
 </header>
 
 <main class="view">
+  <p class="board-name">Spielfeld: <strong id="boardName"></strong> <small>– alle Mitspieler brauchen dasselbe</small></p>
   <div class="board-wrap">
     <div class="board" id="board"></div>
   </div>
@@ -49,9 +50,8 @@
 
   <button type="button" class="btn btn-primary btn-big" id="btnScore">Punkte ausrechnen</button>
 
-  <p class="legend">Mit normalen Würfeln: <strong>Farbe</strong> = roter, gelber, grüner Würfel
-    (1 Grün · 2 Gelb · 3 Blau · 4 Rot · 5 Orange · 6 Joker),
-    <strong>Zahl</strong> = beide weißen und der blaue (1–5, 6 Joker).</p>
+  <p class="legend">Gewürfelt wird mit den Würfeln aus „Noch mal!“: 3 Farbwürfel
+    (Farbe oder Joker ?) und 3 Zahlwürfel (1–5 oder Joker ?).</p>
 
   <p class="footer-note">Inoffizieller Ersatzblock mit eigenem Spielfeld, nicht mit dem Verlag
     von „Noch mal!“ verbunden. · <a href="../kontakt.html">Kontakt &amp; Datenschutz</a></p>
@@ -86,6 +86,13 @@
   <form method="dialog">
     <h3>Neues Spiel?</h3>
     <p>Alle Kreuze, Joker und Markierungen werden gelöscht.</p>
+    <fieldset class="choose-board">
+      <legend>Spielfeld <small>– alle Mitspieler wählen dasselbe</small></legend>
+      <label><input type="radio" name="board" value="0" checked><span>Feld 1</span></label>
+      <label><input type="radio" name="board" value="1"><span>Feld 2</span></label>
+      <label><input type="radio" name="board" value="2"><span>Feld 3 <small>kleine Flächen</small></span></label>
+      <label><input type="radio" name="board" value="3"><span>Feld 4 <small>große Flächen</small></span></label>
+    </fieldset>
     <button type="button" class="btn btn-primary" id="btnNewConfirm">Neues Spiel</button>
     <button class="btn btn-ghost">Abbrechen</button>
   </form>

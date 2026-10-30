@@ -9,9 +9,9 @@ Online: <https://games.kanonenwiese.de/>
 | --- | --- |
 | [`neandertaler/`](neandertaler/) | Zusatzkarten, Timer und Punkte für „Poesie für Neandertaler“ |
 | [`kreuzblock/`](kreuzblock/) | Ersatz-Wertungsblock für „Qwixx“ |
-| [`farbkreuz/`](farbkreuz/) | Ersatzblock mit eigenem Spielfeld für „Noch mal!“, mit normalen Würfeln |
+| [`farbkreuz/`](farbkreuz/) | Ersatzblock mit eigenem Spielfeld für „Noch mal!“ (Originalwürfel) |
 | [`summenraster/`](summenraster/) | Ersatzblock für „Knister“, mit den 2 weißen Würfeln |
-| [`schlaufuchs/`](schlaufuchs/) | Eigenes Wertungsblatt nach „Ganz schön clever“, mit normalen Würfeln |
+| [`schlaufuchs/`](schlaufuchs/) | Eigenes Wertungsblatt nach „Ganz schön clever“ (Würfel in Originalfarben) |
 
 Im Wurzelverzeichnis liegen die Übersicht (`index.html`), die gemeinsame Seite
 „Kontakt & Datenschutz“ (`kontakt.html`, `site.css`) sowie `.htaccess` und
@@ -37,5 +37,4 @@ Jeder Push auf `main` spiegelt das Repository per SFTP auf den Webspace, siehe
 
 ## Warteliste
 
-Spiele, die noch gebaut werden sollen – nur mit den vorhandenen Würfeln
-(2 weiß, je 1 rot, gelb, grün, blau). Gerade leer.
+Spiele, die noch gebaut werden sollen. Gerade leer.

@@ -1,27 +1,26 @@
 # Farbkreuz
 
 Ersatzblock für **Noch mal!** auf dem Handy – mit **eigenem Spielfeld** und
-spielbar mit **normalen Würfeln** (denselben sechs wie beim Kreuzblock).
+gespielt mit den **Würfeln aus „Noch mal!“**.
 Inoffizielles Fan-Tool, nicht mit dem Verlag verbunden.
 
 Online: <https://games.kanonenwiese.de/farbkreuz/>
 
 ## Würfel
 
-| | 1 | 2 | 3 | 4 | 5 | 6 |
-| --- | --- | --- | --- | --- | --- | --- |
-| Farbwürfel (rot, gelb, grün) | Grün | Gelb | Blau | Rot | Orange | Joker |
-| Zahlwürfel (weiß, weiß, blau) | 1 | 2 | 3 | 4 | 5 | Joker |
+Die Originalwürfel: 3 Farbwürfel (5 Farben + Joker), 3 Zahlwürfel (1–5 + Joker).
 
-## Spielfeld
+## Spielfelder
 
 15 × 7 Felder (Spalten A–O, Start in H), 5 Farben mit je 21 Feldern in
-Flächen von 1 bis 6 Feldern, ein Stern pro Spalte. Das Feld ist ein eigener
-Entwurf, erzeugt mit `tools/raster.py` (fester Startwert), und steht als
-`BOARD` in `js/app.js`. Alle Handys zeigen dasselbe Feld.
+Flächen von 1 bis 6 Feldern, ein Stern pro Spalte. Vier eigene Entwürfe,
+erzeugt mit `python3 tools/raster.py 4` (feste Startwerte): Feld 1 und 2
+gemischt, Feld 3 kleine Flächen, Feld 4 große Flächen. Sie stehen als `BOARDS`
+in `js/app.js`; gewählt wird bei „Neu“, alle Mitspieler nehmen dasselbe Feld.
 
-**Achtung:** Wer das Feld ändert, macht laufende Spiele auf den Handys
-ungültig (die Kreuze hängen an den Feldpositionen).
+**Achtung:** Reihenfolge und Inhalt der Felder nicht ändern – laufende Spiele
+merken sich die Nummer, die Kreuze hängen an den Feldpositionen. Neue Felder
+hinten anhängen.
 
 ## Bedienung
 

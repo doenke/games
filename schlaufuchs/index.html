@@ -61,7 +61,7 @@
   </section>
 
   <section class="area area-o">
-    <h2><span>Rot</span> <small>Augenzahl eintragen</small><b id="so">0</b></h2>
+    <h2><span>Orange</span> <small>Augenzahl eintragen</small><b id="so">0</b></h2>
     <div class="row11" id="areaO"></div>
   </section>
 
@@ -72,9 +72,8 @@
 
   <button type="button" class="btn btn-primary btn-big" id="btnScore">Punkte ausrechnen · <span id="total">0</span></button>
 
-  <p class="legend">Würfel: <strong>Weiß</strong> = Joker · <strong>Lila</strong> = weißer
-    Würfel mit Punkt · <strong>Rot</strong>, <strong>Gelb</strong>, <strong>Grün</strong>,
-    <strong>Blau</strong> wie gewohnt.</p>
+  <p class="legend">Würfel in den Originalfarben: <strong>Weiß</strong> ist der Joker,
+    <strong>Blau</strong> zählt immer zusammen mit Weiß.</p>
 
   <p class="footer-note">Eigenes Wertungsblatt nach dem Prinzip von „Ganz schön clever“,
     nicht mit dem Verlag verbunden. · <a href="../kontakt.html">Kontakt &amp; Datenschutz</a></p>
@@ -117,6 +116,12 @@
       <label><input type="radio" name="players" value="4"><span>4</span></label>
     </fieldset>
     <p class="hint">1–2 Spieler: 6 Runden · 3 Spieler: 5 · 4 Spieler: 4</p>
+    <fieldset class="choose-sheet">
+      <legend>Blatt <small>– jeder darf ein anderes nehmen</small></legend>
+      <label><input type="radio" name="sheet" value="0" checked><span>Blatt 1</span></label>
+      <label><input type="radio" name="sheet" value="1"><span>Blatt 2</span></label>
+      <label><input type="radio" name="sheet" value="2"><span>Blatt 3 <small>Fuchsjagd</small></span></label>
+    </fieldset>
     <button type="button" class="btn btn-primary" id="btnNewConfirm">Neues Spiel</button>
     <button class="btn btn-ghost">Abbrechen</button>
   </form>

@@ -11,12 +11,45 @@
   const MAX_PENALTIES = 4;
   const PENALTY = 5;
 
-  const ROWS = [
-    { id: 'red',    name: 'Rot',  numbers: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
-    { id: 'yellow', name: 'Gelb', numbers: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
-    { id: 'green',  name: 'Grün', numbers: [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2] },
-    { id: 'blue',   name: 'Blau', numbers: [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2] }
-  ];
+  // Blöcke: klassisch und zwei eigene Varianten mit gemischten Zahlen bzw. Farben.
+  const UP = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const DOWN = [...UP].reverse();
+  const COLOR_NAMES = { red: 'Rot', yellow: 'Gelb', green: 'Grün', blue: 'Blau' };
+  const mix = (s) => s.split(' ').map((c) => ({ R: 'red', Y: 'yellow', G: 'green', B: 'blue' })[c]);
+  const SHEETS = {
+    classic: {
+      name: 'Klassisch',
+      rows: [
+        { id: 'red', numbers: UP }, { id: 'yellow', numbers: UP },
+        { id: 'green', numbers: DOWN }, { id: 'blue', numbers: DOWN }
+      ]
+    },
+    numbers: {
+      name: 'Zahlen gemischt',
+      rows: [
+        { id: 'red',    numbers: [5, 9, 2, 7, 11, 4, 8, 6, 10, 3, 12] },
+        { id: 'yellow', numbers: [8, 3, 10, 6, 12, 5, 7, 2, 9, 4, 11] },
+        { id: 'green',  numbers: [6, 10, 4, 12, 7, 2, 9, 5, 11, 8, 3] },
+        { id: 'blue',   numbers: [9, 4, 11, 7, 3, 10, 6, 12, 5, 8, 2] }
+      ]
+    },
+    colors: {
+      name: 'Farben gemischt',
+      // Jede Reihe gehört zur Farbe ihres letzten Felds und Schlosses.
+      rows: [
+        { id: 'red',    numbers: UP,   colors: mix('R R Y Y G B B R G Y R') },
+        { id: 'yellow', numbers: UP,   colors: mix('Y G G B R R Y B B G Y') },
+        { id: 'green',  numbers: DOWN, colors: mix('G B R R Y G G Y B R G') },
+        { id: 'blue',   numbers: DOWN, colors: mix('B Y Y R G B R G R Y B') }
+      ]
+    }
+  };
+  let ROWS = [];
+  function useSheet(id) {
+    const sheet = SHEETS[id] || SHEETS.classic;
+    ROWS = sheet.rows.map((r) => ({ ...r, name: COLOR_NAMES[r.id] }));
+    return sheet;
+  }
   const LAST = 10; // Index des letzten Zahlenfelds
 
   const $ = (id) => document.getElementById(id);
@@ -28,8 +61,9 @@
     try { localStorage.setItem(KEY, JSON.stringify(game)); } catch { /* ohne Speicher weiter */ }
   };
 
-  const fresh = () => ({
-    rows: ROWS.map(() => ({ crossed: [], locked: null })), // locked: null | 'me' | 'other'
+  const fresh = (sheet = 'classic') => ({
+    sheet,
+    rows: [0, 1, 2, 3].map(() => ({ crossed: [], locked: null })), // locked: null | 'me' | 'other'
     penalties: 0,
     undo: []
   });
@@ -37,6 +71,8 @@
   let game = load();
   if (!game || !Array.isArray(game.rows) || game.rows.length !== 4) game = fresh();
   game.undo = game.undo || [];
+  game.sheet = SHEETS[game.sheet] ? game.sheet : 'classic';
+  useSheet(game.sheet);
 
   // ---------------------------------------------------------------- Regeln
 
@@ -139,21 +175,21 @@
     const box = $('rows');
     box.replaceChildren(...ROWS.map((def, r) => {
       const row = document.createElement('div');
-      row.className = `row row-${def.id}`;
+      row.className = `row row-${def.id}` + (def.colors ? ' row-mixed' : '');
       row.setAttribute('role', 'group');
       row.setAttribute('aria-label', `Reihe ${def.name}`);
       def.numbers.forEach((n, i) => {
         const b = document.createElement('button');
         b.type = 'button';
-        b.className = 'cell' + (i === LAST ? ' cell-last' : '');
+        b.className = 'cell' + (i === LAST ? ' cell-last' : '') + (def.colors ? ` cell-${def.colors[i]}` : '');
         b.dataset.r = r; b.dataset.i = i;
         b.innerHTML = `<span class="num">${n}</span>`;
-        b.setAttribute('aria-label', `${def.name} ${n}`);
+        b.setAttribute('aria-label', `${def.colors ? COLOR_NAMES[def.colors[i]] : def.name} ${n}`);
         row.append(b);
       });
       const lock = document.createElement('button');
       lock.type = 'button';
-      lock.className = 'cell cell-lock';
+      lock.className = 'cell cell-lock' + (def.colors ? ` cell-${def.id}` : '');
       lock.dataset.r = r; lock.dataset.lock = '1';
       lock.innerHTML = '<span class="num">🔒</span>';
       lock.setAttribute('aria-label', `${def.name} Schloss`);
@@ -172,6 +208,8 @@
   }
 
   function render() {
+    $('sheetName').textContent = game.sheet === 'classic' ? '' : `Block: ${SHEETS[game.sheet].name}`;
+    $('sheetName').hidden = game.sheet === 'classic';
     game.rows.forEach((row, r) => {
       const el = $('rows').children[r];
       el.classList.toggle('locked', !!row.locked);
@@ -248,9 +286,16 @@
 
   $('btnScore').addEventListener('click', () => { renderScore(); $('dlgScore').showModal(); });
   $('btnUndo').addEventListener('click', undo);
-  $('btnNew').addEventListener('click', () => $('dlgNew').showModal());
+  $('btnNew').addEventListener('click', () => {
+    for (const r of document.querySelectorAll('input[name="sheet"]')) r.checked = r.value === game.sheet;
+    $('dlgNew').showModal();
+  });
   $('btnNewConfirm').addEventListener('click', () => {
-    game = fresh(); save(); render(); $('dlgNew').close();
+    const sheet = document.querySelector('input[name="sheet"]:checked')?.value || 'classic';
+    game = fresh(sheet);
+    useSheet(sheet);
+    buildRows();
+    save(); render(); $('dlgNew').close();
   });
   for (const dlg of document.querySelectorAll('dialog')) {
     dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });

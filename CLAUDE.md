@@ -17,8 +17,9 @@ hat dort ein eigenes `README.md` und ggf. `CLAUDE.md` mit seinen Regeln.
 - Spielmaterial: Liste `GAMES`/`ITEMS` im Skript von `index.html` – jedes neue
   Spiel mit seinem Material eintragen (Pflicht und optional, was die App
   ersetzt, Handys). Daraus entstehen Packliste und Übersicht pro Spiel.
-  Ziel: In den Urlaub sollen möglichst nur die Würfel mit – neue Spiele
-  bevorzugt mit vorhandenem Material (Würfel) auskommen lassen.
+  Ziel: In den Urlaub sollen möglichst nur Würfel mit. Würfel in den
+  Originalfarben des Spiels verwenden – lieber mehr Würfel einpacken als
+  Farben umdeuten (Wunsch des Nutzers).
 - Launcher: Die Übersicht ist selbst eine installierbare PWA
   (`manifest.webmanifest`, `sw.js`, `icons/`). Jedes neue Spiel zusätzlich als
   Eintrag unter `shortcuts` im Manifest anlegen. Der Service Worker der

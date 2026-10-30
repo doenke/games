@@ -131,6 +131,16 @@ body {
   font-variant-numeric: tabular-nums;
 }
 .row-yellow .cell { color: #9a7400; }
+
+/* Block „Farben gemischt“: jedes Feld trägt seine eigene Farbe */
+.row-mixed { background: color-mix(in srgb, var(--c) 35%, var(--line)); }
+.cell-red { --c: var(--red); }
+.cell-yellow { --c: var(--yellow); }
+.cell-green { --c: var(--green); }
+.cell-blue { --c: var(--blue); }
+.row-mixed .cell { background: var(--c); color: #fff; }
+.row-mixed .cell-yellow { color: #5c4500; }
+.row-mixed .cell-lock { background: var(--c); }
 .cell-last { outline: 2px dashed color-mix(in srgb, var(--c) 60%, #fff); outline-offset: -4px; }
 .cell-lock {
   border-radius: 50%;
@@ -390,3 +400,16 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; text
   #btnScore { min-height: 0; height: 100%; }
   .footer-note { margin-top: 0; }
 }
+
+/* ------------------------------------------------ Blockwahl */
+
+.sheet-name { margin: 0; font-size: .85rem; font-weight: 600; color: var(--muted); text-align: center; }
+.choose-sheet { border: 0; margin: 0; padding: 0; display: grid; gap: 6px; }
+.choose-sheet legend { font-weight: 600; margin-bottom: 6px; padding: 0; }
+.choose-sheet input { position: absolute; opacity: 0; }
+.choose-sheet span {
+  display: block; padding: 10px 12px; border: 2px solid var(--line); border-radius: 10px;
+  font-weight: 700; cursor: pointer;
+}
+.choose-sheet input:checked + span { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 18%, var(--panel)); }
+.choose-sheet input:focus-visible + span { outline: 2px solid var(--text); }

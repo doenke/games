@@ -2,7 +2,7 @@
 // Aufruf aus dem Ordner schlaufuchs/:  node tools/icons.js
 const { chromium } = require('playwright');
 
-const FARBEN = ['#f2c230', '#3a7bd5', '#3aa655', '#e0453a', '#8e5bd0', '#f4f4f0'];
+const FARBEN = ['#f2c230', '#3a7bd5', '#3aa655', '#f08a24', '#8e5bd0', '#f4f4f0'];
 
 function svg(size, pad) {
   const inner = size - 2 * pad, gap = inner * 0.07, cell = (inner - 2 * gap) / 3;

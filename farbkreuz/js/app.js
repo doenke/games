@@ -5,16 +5,20 @@
   // __BUILD__ wird beim Deploy durch den Commit-SHA ersetzt.
   const BUILD = '__BUILD__';
 
-  // Spielfeld aus tools/raster.py (Startwert 5). Buchstabe = Farbe, groß = Stern.
-  const BOARD = [
-    'ogggBrRgggrBbgy',
-    'ogybbrryyrRobgy',
-    'ObYybbrryyyoory',
-    'gbyBgrybBbooorg',
-    'obgggrryyYygRrg',
-    'ooyrooyoybbbbGg',
-    'oRrroOyOorboggB'
+  // Spielfelder aus tools/raster.py. Buchstabe = Farbe, groß = Stern.
+  // Reihenfolge nicht ändern: laufende Spiele merken sich die Nummer.
+  const BOARDS = [
+    // Feld 1: gemischt, Startwert 5
+    ['ogggBrRgggrBbgy', 'ogybbrryyrRobgy', 'ObYybbrryyyoory', 'gbyBgrybBbooorg', 'obgggrryyYygRrg', 'ooyrooyoybbbbGg', 'oRrroOyOorboggB'],
+    // Feld 2: gemischt, Startwert 12
+    ['rrygRyYygbbyyGg', 'RrygryogggbYygo', 'rgYggooggooyygo', 'rGgobbrRrOobbby', 'yyrBbrrooyybbgb', 'yoobrBbbogybrrB', 'oooorrboOgYgRrb'],
+    // Feld 3: kleine Flächen, Startwert 15
+    ['yyRgrBbYyoyroob', 'yoggrbrggobbOoB', 'boybrgGyyybbrrg', 'bgyYbobbbYoGggg', 'RrggBrobbgyrrYy', 'orrorrooOgyrgoo', 'oOryyyyrrbBgggo'],
+    // Feld 4: große Flächen, Startwert 17
+    ['yyyygbbrroobbbg', 'gybygggGoOyBggG', 'grrRrYroobbyrrg', 'GgrgryybBbbrRrg', 'ogOooyyoogRbbBo', 'bgroogOoogrbbbo', 'oOrrYyyyyrryyyb'],
   ];
+  const BOARD_NAMES = ['Feld 1', 'Feld 2', 'Feld 3 · kleine Flächen', 'Feld 4 · große Flächen'];
+  let BOARD = BOARDS[0];
   const W = 15, H = 7, START = 7; // Spalte H
   const LETTERS = 'ABCDEFGHIJKLMNO';
   const COLS_HIGH = [5, 3, 3, 3, 2, 2, 2, 1, 2, 2, 2, 3, 3, 3, 5];
@@ -38,7 +42,8 @@
 
   // ---------------------------------------------------------------- Zustand
 
-  const fresh = () => ({
+  const fresh = (board = 0) => ({
+    board,                       // Nummer des Spielfelds in BOARDS
     crossed: [],                 // Schlüssel angekreuzter Felder
     jokers: 0,                   // verbrauchte Joker
     colsOther: Array(W).fill(false),      // Spalte hat jemand anderes zuerst voll
@@ -49,6 +54,8 @@
   let game;
   try { game = JSON.parse(localStorage.getItem(KEY)); } catch { game = null; }
   if (!game || !Array.isArray(game.crossed)) game = fresh();
+  game.board = BOARDS[game.board] ? game.board : 0;
+  BOARD = BOARDS[game.board];
   game.undo = game.undo || [];
 
   let pending = [];              // im laufenden Zug angetippt, noch nicht bestätigt
@@ -179,6 +186,7 @@
   }
 
   function render() {
+    $('boardName').textContent = BOARD_NAMES[game.board];
     for (const b of $('board').querySelectorAll('.cell')) {
       const k = Number(b.dataset.k);
       b.classList.toggle('crossed', isCrossed(k));
@@ -290,9 +298,15 @@
     save(); render();
   });
   $('btnScore').addEventListener('click', () => { renderScore(); $('dlgScore').showModal(); });
-  $('btnNew').addEventListener('click', () => $('dlgNew').showModal());
+  $('btnNew').addEventListener('click', () => {
+    for (const r of document.querySelectorAll('input[name="board"]')) r.checked = Number(r.value) === game.board;
+    $('dlgNew').showModal();
+  });
   $('btnNewConfirm').addEventListener('click', () => {
-    game = fresh(); pending = []; jokerColor = jokerNumber = false;
+    const b = Number(document.querySelector('input[name="board"]:checked')?.value || 0);
+    game = fresh(b); pending = []; jokerColor = jokerNumber = false;
+    BOARD = BOARDS[b];
+    build();
     save(); render(); $('dlgNew').close();
   });
   for (const dlg of document.querySelectorAll('dialog')) {
